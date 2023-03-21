@@ -13,6 +13,4 @@ public class MyController {
     public String Home(){
         return "This is home Page";
     }
-
-
 }
