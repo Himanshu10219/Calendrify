@@ -1,13 +1,12 @@
 package com.Calendrify.Calendrify.Models;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -15,6 +14,7 @@ import java.time.LocalDate;
 @Table(name = "user")
 public class User {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "userID", nullable = false)
     private Integer id;
 
@@ -38,5 +38,11 @@ public class User {
 
     @Column(name = "isDeleted")
     private Boolean isDeleted;
+
+    @OneToMany(mappedBy = "hostID")
+    private Set<Event> events = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "userID")
+    private Set<Useraddress> useraddresses = new LinkedHashSet<>();
 
 }
