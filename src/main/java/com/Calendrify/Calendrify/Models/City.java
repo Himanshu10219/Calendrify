@@ -1,14 +1,7 @@
 package com.Calendrify.Calendrify.Models;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
 
-import java.util.LinkedHashSet;
-import java.util.Set;
-
-@Getter
-@Setter
 @Entity
 @Table(name = "city")
 public class City {
@@ -24,7 +17,28 @@ public class City {
     @JoinColumn(name = "stateID")
     private State stateID;
 
-    @OneToMany(mappedBy = "cityID")
-    private Set<Useraddress> useraddresses = new LinkedHashSet<>();
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public State getStateID() {
+        return stateID;
+    }
+
+    public void setStateID(State stateID) {
+        this.stateID = stateID;
+    }
 
 }

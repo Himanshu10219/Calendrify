@@ -1,13 +1,9 @@
 package com.Calendrify.Calendrify.Models;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
 
 import java.time.Instant;
 
-@Getter
-@Setter
 @Entity
 @Table(name = "eventinvite")
 public class Eventinvite {
@@ -24,5 +20,37 @@ public class Eventinvite {
 
     @Column(name = "inviteTime")
     private Instant inviteTime;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Integer getUserID() {
+        return userID;
+    }
+
+    public void setUserID(Integer userID) {
+        this.userID = userID;
+    }
+
+    public Integer getEventID() {
+        return eventID;
+    }
+
+    public void setEventID(Integer eventID) {
+        this.eventID = eventID;
+    }
+
+    public Instant getInviteTime() {
+        return inviteTime;
+    }
+
+    public void setInviteTime(Instant inviteTime) {
+        this.inviteTime = inviteTime;
+    }
 
 }

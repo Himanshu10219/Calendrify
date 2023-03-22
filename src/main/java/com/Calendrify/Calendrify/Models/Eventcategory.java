@@ -1,15 +1,9 @@
 package com.Calendrify.Calendrify.Models;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
 
 import java.time.LocalDate;
-import java.util.LinkedHashSet;
-import java.util.Set;
 
-@Getter
-@Setter
 @Entity
 @Table(name = "eventcategory")
 public class Eventcategory {
@@ -24,7 +18,28 @@ public class Eventcategory {
     @Column(name = "createdAt")
     private LocalDate createdAt;
 
-    @OneToMany(mappedBy = "eventCatID")
-    private Set<Event> events = new LinkedHashSet<>();
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public LocalDate getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDate createdAt) {
+        this.createdAt = createdAt;
+    }
 
 }
