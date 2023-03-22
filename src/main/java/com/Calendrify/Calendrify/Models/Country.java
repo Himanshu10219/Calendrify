@@ -2,6 +2,9 @@ package com.Calendrify.Calendrify.Models;
 
 import jakarta.persistence.*;
 
+import java.util.LinkedHashSet;
+import java.util.Set;
+
 @Entity
 @Table(name = "country")
 public class Country {
@@ -12,6 +15,9 @@ public class Country {
 
     @Column(name = "Name")
     private String name;
+
+    @OneToMany(mappedBy = "countryID")
+    private Set<State> states = new LinkedHashSet<>();
 
     public Integer getId() {
         return id;
@@ -27,6 +33,14 @@ public class Country {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Set<State> getStates() {
+        return states;
+    }
+
+    public void setStates(Set<State> states) {
+        this.states = states;
     }
 
 }

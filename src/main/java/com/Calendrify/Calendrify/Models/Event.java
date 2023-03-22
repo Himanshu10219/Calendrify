@@ -1,8 +1,6 @@
 package com.Calendrify.Calendrify.Models;
 
 import jakarta.persistence.*;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.Instant;
 import java.time.LocalDate;
@@ -44,14 +42,13 @@ public class Event {
     private User hostID;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "eventCatID")
     private Eventcategory eventCatID;
 
-    @Column(name = "createdAt")
+    @Column(name = "createdAt", nullable = false)
     private LocalDate createdAt;
 
-    @Column(name = "lastModify")
+    @Column(name = "lastModify", nullable = false)
     private LocalDate lastModify;
 
     @Column(name = "isDeleted")

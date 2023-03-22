@@ -3,6 +3,8 @@ package com.Calendrify.Calendrify.Models;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "eventcategory")
@@ -15,8 +17,11 @@ public class Eventcategory {
     @Column(name = "name", length = 50)
     private String name;
 
-    @Column(name = "createdAt")
+    @Column(name = "createdAt", nullable = false)
     private LocalDate createdAt;
+
+    @OneToMany(mappedBy = "eventCatID")
+    private Set<Event> events = new LinkedHashSet<>();
 
     public Integer getId() {
         return id;
@@ -40,6 +45,14 @@ public class Eventcategory {
 
     public void setCreatedAt(LocalDate createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public Set<Event> getEvents() {
+        return events;
+    }
+
+    public void setEvents(Set<Event> events) {
+        this.events = events;
     }
 
 }

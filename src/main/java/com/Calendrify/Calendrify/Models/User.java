@@ -3,6 +3,8 @@ package com.Calendrify.Calendrify.Models;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "user")
@@ -27,11 +29,14 @@ public class User {
     @Column(name = "mobile", length = 13)
     private String mobile;
 
-    @Column(name = "createdAt")
+    @Column(name = "createdAt", nullable = false)
     private LocalDate createdAt;
 
-    @Column(name = "isDeleted")
-    private Boolean isDeleted;
+    @OneToMany(mappedBy = "hostID")
+    private Set<Event> events = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "userID")
+    private Set<Useraddress> useraddresses = new LinkedHashSet<>();
 
     public Integer getId() {
         return id;
@@ -89,12 +94,20 @@ public class User {
         this.createdAt = createdAt;
     }
 
-    public Boolean getIsDeleted() {
-        return isDeleted;
+    public Set<Event> getEvents() {
+        return events;
     }
 
-    public void setIsDeleted(Boolean isDeleted) {
-        this.isDeleted = isDeleted;
+    public void setEvents(Set<Event> events) {
+        this.events = events;
+    }
+
+    public Set<Useraddress> getUseraddresses() {
+        return useraddresses;
+    }
+
+    public void setUseraddresses(Set<Useraddress> useraddresses) {
+        this.useraddresses = useraddresses;
     }
 
 }
