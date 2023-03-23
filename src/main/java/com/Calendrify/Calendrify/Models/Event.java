@@ -12,6 +12,7 @@ import java.time.LocalDate;
 public class Event {
     @Id
     @Column(name = "eventID", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Column(name = "title", length = 50)
