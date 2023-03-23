@@ -1,12 +1,14 @@
 package com.Calendrify.Calendrify.Models;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "`group`")
 public class Group {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "groupID", nullable = false)
     private Integer id;
 

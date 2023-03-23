@@ -1,16 +1,16 @@
 package com.Calendrify.Calendrify.Models;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 import java.time.LocalDate;
-import java.util.LinkedHashSet;
-import java.util.Set;
 
 @Entity
 @Table(name = "user")
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "userID", nullable = false)
     private Integer id;
 
@@ -29,14 +29,11 @@ public class User {
     @Column(name = "mobile", length = 13)
     private String mobile;
 
-    @Column(name = "createdAt", nullable = false)
+    @Column(name = "createdAt")
     private LocalDate createdAt;
 
-    @OneToMany(mappedBy = "hostID")
-    private Set<Event> events = new LinkedHashSet<>();
-
-    @OneToMany(mappedBy = "userID")
-    private Set<Useraddress> useraddresses = new LinkedHashSet<>();
+    @Column(name = "isDeleted")
+    private Boolean isDeleted;
 
     public Integer getId() {
         return id;
@@ -94,20 +91,12 @@ public class User {
         this.createdAt = createdAt;
     }
 
-    public Set<Event> getEvents() {
-        return events;
+    public Boolean getIsDeleted() {
+        return isDeleted;
     }
 
-    public void setEvents(Set<Event> events) {
-        this.events = events;
-    }
-
-    public Set<Useraddress> getUseraddresses() {
-        return useraddresses;
-    }
-
-    public void setUseraddresses(Set<Useraddress> useraddresses) {
-        this.useraddresses = useraddresses;
+    public void setIsDeleted(Boolean isDeleted) {
+        this.isDeleted = isDeleted;
     }
 
 }
