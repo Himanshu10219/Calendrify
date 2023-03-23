@@ -28,9 +28,7 @@ public class EventInviteService {
     {
         Eventinvite list ;
         list = inviteRepo.findById(id).get();
-        if(){
-            return list;
-        }
+        
         return  null;
     }
 }
