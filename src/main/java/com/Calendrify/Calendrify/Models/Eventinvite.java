@@ -1,9 +1,8 @@
 package com.Calendrify.Calendrify.Models;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.Instant;
 
@@ -11,14 +10,19 @@ import java.time.Instant;
 @Table(name = "eventinvite")
 public class Eventinvite {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "inviteID", nullable = false)
     private Integer id;
 
-    @Column(name = "userID")
-    private Integer userID;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JoinColumn(name = "userID")
+    private User userID;
 
-    @Column(name = "eventID")
-    private Integer eventID;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JoinColumn(name = "eventID")
+    private Event eventID;
 
     @Column(name = "inviteTime")
     private Instant inviteTime;
@@ -31,19 +35,19 @@ public class Eventinvite {
         this.id = id;
     }
 
-    public Integer getUserID() {
+    public User getUserID() {
         return userID;
     }
 
-    public void setUserID(Integer userID) {
+    public void setUserID(User userID) {
         this.userID = userID;
     }
 
-    public Integer getEventID() {
+    public Event getEventID() {
         return eventID;
     }
 
-    public void setEventID(Integer eventID) {
+    public void setEventID(Event eventID) {
         this.eventID = eventID;
     }
 

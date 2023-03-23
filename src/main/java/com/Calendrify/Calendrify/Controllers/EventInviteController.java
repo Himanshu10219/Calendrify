@@ -1,7 +1,7 @@
 package com.Calendrify.Calendrify.Controllers;
 
-import com.Calendrify.Calendrify.Models.Event;
-import com.Calendrify.Calendrify.Services.EventService;
+import com.Calendrify.Calendrify.Models.Eventinvite;
+import com.Calendrify.Calendrify.Services.EventInviteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,14 +12,17 @@ import java.util.List;
 
 @RestController
 @Controller
-@RequestMapping("/events")
-public class EventController {
+@RequestMapping("/eventsinvite")
+public class EventInviteController {
 
     @Autowired
-    EventService eventService;
-    @GetMapping("/getAllEvents")
-    public List<Event> getAllEvents(){
-        //new 
-        return eventService.getAllEvents();
+    EventInviteService eventInviteService;
+
+    @GetMapping("/getalleventinvite")
+
+    public List<Eventinvite> getalleventinvite(){
+
+        return eventInviteService.getalleventinvite();
     }
+
 }
