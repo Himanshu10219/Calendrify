@@ -1,9 +1,6 @@
 package com.Calendrify.Calendrify.Models;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 import java.time.LocalDate;
 
@@ -11,6 +8,7 @@ import java.time.LocalDate;
 @Table(name = "user")
 public class User {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "userID", nullable = false)
     private Integer id;
 
