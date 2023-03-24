@@ -21,4 +21,9 @@ public interface EventRepo extends JpaRepository<Event, Integer> {
 
     @Query(value = "SELECT * FROM `events` where eventCatID =?1",nativeQuery = true)
     List<Event> getEventByCategory(int eventCatID);
+
+    @Query(value = "SELECT * FROM `events` where hostID =?1",nativeQuery = true)
+    List<Event> getEventByUserId(int eventCatID);
+
+
 }

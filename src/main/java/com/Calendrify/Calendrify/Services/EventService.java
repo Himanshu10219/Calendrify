@@ -1,90 +1,141 @@
 package com.Calendrify.Calendrify.Services;
 
-import com.Calendrify.Calendrify.Models.BodyResponse.AddEventBody;
+import com.Calendrify.Calendrify.Handlers.ResponseHandler;
 import com.Calendrify.Calendrify.Models.Event;
 import com.Calendrify.Calendrify.Repository.EventRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 @Service
 public class EventService {
     @Autowired
     EventRepo eventRepo;
 
-    public ResponseEntity<?> getAllEvents(){
-        List<Event> list;
-        list=eventRepo.findAll();
-        if(!list.isEmpty()){
-            return new ResponseEntity<>(list, HttpStatus.OK);
-        }
-        return  new ResponseEntity<>("No Event Added", HttpStatus.OK);
-    }
-    public ResponseEntity<?> getEventById(int id){
+    public ResponseEntity<?> getAllEvents() {
         try {
-            Event event=eventRepo.findById(id).get();
-            return new ResponseEntity<>(event, HttpStatus.OK);
-        } catch (Exception e) {
-            return  new ResponseEntity<>("Event not exist", HttpStatus.OK);
-        }
-    }
-    public ResponseEntity<?> addEvent(Event ev){
-        try {
-             eventRepo.save(ev);
-            return  new ResponseEntity<>("Event Added", HttpStatus.OK);
-        } catch (Exception e) {
-            return  new ResponseEntity<>("Some thing went wrong\n"+e.getMessage(), HttpStatus.OK);
-        }
-    }
-    public ResponseEntity<?> deleteEvent(int id){
-        try {
-            eventRepo.deleteById(id);
-            return  new ResponseEntity<>("Event Deleted", HttpStatus.OK);
-        } catch (Exception e) {
-            return  new ResponseEntity<>("Some thing went wrong\n"+e.getMessage(), HttpStatus.OK);
-        }
-    }
-    public ResponseEntity<?> getEventByMode(boolean onlineType){
-        try {
-            List<Event> list=new ArrayList<>();
-            list=eventRepo.getEventByMode(onlineType);
-            if(!list.isEmpty()){
-                return new ResponseEntity<>(list, HttpStatus.OK);
+            List<Event> list;
+            list = eventRepo.findAll();
+            if (!list.isEmpty()) {
+                return ResponseHandler.GenerateResponse("Success", true,(Object) list);
+            } else {
+                return ResponseHandler.GenerateResponse("Event not exist", false, null);
             }
-            return  new ResponseEntity<>("No Event Added", HttpStatus.OK);
         } catch (Exception e) {
-            return  new ResponseEntity<>("Some thing went wrong\n"+e.getMessage(), HttpStatus.OK);
+            return ResponseHandler.GenerateResponse(e.getMessage(), false, null);
         }
     }
 
-    public ResponseEntity<?> getEventByDate(String startDate,String endDate){
+    public ResponseEntity<?> getEventById(int id) {
         try {
-            List<Event> list=new ArrayList<>();
-
-            list=eventRepo.getEventByDate(startDate, endDate);
-            if(!list.isEmpty()){
-                return new ResponseEntity<>(list, HttpStatus.OK);
+            if(eventRepo.findById(id).isPresent()) {
+                return ResponseHandler.GenerateResponse("Success", true, eventRepo.findById(id).get());
+            }else{
+                return ResponseHandler.GenerateResponse("Event not exist",false,null);
             }
-            return  new ResponseEntity<>("No Event Added", HttpStatus.OK);
         } catch (Exception e) {
-            return  new ResponseEntity<>("Some thing went wrong\n"+e.getMessage(), HttpStatus.OK);
+            return ResponseHandler.GenerateResponse(e.getMessage(), false,null);
         }
     }
-    public ResponseEntity<?> getEventByCategory(int eventCatID){
+
+    public ResponseEntity<?> addEvent(Event ev) {
         try {
-            List<Event> list=new ArrayList<>();
-            list=eventRepo.getEventByCategory(eventCatID);
-            if(!list.isEmpty()){
-                return new ResponseEntity<>(list, HttpStatus.OK);
+            if(eventRepo.findById(ev.getId()).isEmpty()) {
+                eventRepo.save(ev);
+                return ResponseHandler.GenerateResponse("Event Added successfully", true);
+            }else{
+                return ResponseHandler.GenerateResponse("Event already exist", false);
             }
-            return  new ResponseEntity<>("No Event Added", HttpStatus.OK);
+
         } catch (Exception e) {
-            return  new ResponseEntity<>("Some thing went wrong\n"+e.getMessage(), HttpStatus.OK);
+            return ResponseHandler.GenerateResponse(e.getMessage(), false);
+        }
+    }
+
+    public ResponseEntity<?> updateEvent(Event ev) {
+        try {
+            if(eventRepo.findById(ev.getId()).isPresent()) {
+                eventRepo.save(ev);
+                return ResponseHandler.GenerateResponse("Event update successfully", true);
+            }else{
+                return ResponseHandler.GenerateResponse("Event not exist", false);
+            }
+        } catch (Exception e) {
+            return ResponseHandler.GenerateResponse(e.getMessage(), false);
+        }
+    }
+
+    public ResponseEntity<?> deleteEvent(int id) {
+        try {
+            if(eventRepo.findById(id).isPresent()) {
+                eventRepo.deleteById(id);
+                return ResponseHandler.GenerateResponse("Event Deleted successfully", true);
+            }else{
+                return ResponseHandler.GenerateResponse("Event not exist", false);
+            }
+        } catch (Exception e) {
+            return ResponseHandler.GenerateResponse(e.getMessage(), false);
+        }
+    }
+
+    public ResponseEntity<?> getEventByMode(boolean onlineType) {
+        try {
+            List<Event> list;
+            list = eventRepo.getEventByMode(onlineType);
+            if (!list.isEmpty()) {
+                return ResponseHandler.GenerateResponse("Success", true, list);
+            } else {
+                return ResponseHandler.GenerateResponse("Success", false, null);
+            }
+
+        } catch (Exception e) {
+            return ResponseHandler.GenerateResponse(e.getMessage(), false, null);
+        }
+    }
+
+    public ResponseEntity<?> getEventByDate(String startDate, String endDate) {
+        try {
+            List<Event> list;
+            list = eventRepo.getEventByDate(startDate, endDate);
+            if (!list.isEmpty()) {
+                return ResponseHandler.GenerateResponse("Success", true, list);
+            } else {
+                return ResponseHandler.GenerateResponse("Success", false , null);
+            }
+
+        } catch (Exception e) {
+            return ResponseHandler.GenerateResponse(e.getMessage(), false, null);
+        }
+    }
+
+    public ResponseEntity<?> getEventByCategory(int eventCatID) {
+        try {
+            List<Event> list;
+            list = eventRepo.getEventByCategory(eventCatID);
+            if (!list.isEmpty()) {
+                return ResponseHandler.GenerateResponse("Success", true, list);
+            } else {
+                return ResponseHandler.GenerateResponse("Success", false, null);
+            }
+
+        } catch (Exception e) {
+            return ResponseHandler.GenerateResponse(e.getMessage(), false, null);
+        }
+    }
+
+    public ResponseEntity<?> getEventByUserID(int userID) {
+        try {
+            List<Event> list;
+            list = eventRepo.getEventByUserId(userID);
+            if (!list.isEmpty()) {
+                return ResponseHandler.GenerateResponse("Success", true, list);
+            } else {
+                return ResponseHandler.GenerateResponse("Success", false,null);
+            }
+        } catch (Exception e) {
+            return ResponseHandler.GenerateResponse(e.getMessage(), false, null);
         }
     }
 }

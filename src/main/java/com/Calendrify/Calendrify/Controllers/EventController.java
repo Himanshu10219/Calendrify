@@ -25,30 +25,37 @@ public class EventController {
     public ResponseEntity<?> getAllEvents(){
         return eventService.getAllEvents();
     }
-    @PostMapping("/addEvent")
-    public ResponseEntity<?> addEvent(@RequestBody Event event){
-        return eventService.addEvent(event);
-    }
-
     @GetMapping("/getEventById/{eventID}")
     public ResponseEntity<?> getEventById(@PathVariable String eventID){
         return eventService.getEventById(Integer.parseInt(eventID));
+    }
+    @GetMapping("/getEventByCategory/{eventCatID}")
+    public ResponseEntity<?> getEventByCategory(@PathVariable String eventCatID){
+        return eventService.getEventByCategory(Integer.parseInt(eventCatID));
+    }
+    @GetMapping("/getEventByUserID/{hostID}")
+    public ResponseEntity<?> getEventByUserID(@PathVariable String hostID){
+        return eventService.getEventByUserID(Integer.parseInt(hostID));
     }
     @PostMapping("/getEventByMode")
     public ResponseEntity<?> getEventByMode(@RequestBody String online){
         //new
         return eventService.getEventByMode(Boolean.parseBoolean(online));
     }
+    @PostMapping("/addEvent")
+    public ResponseEntity<?> addEvent(@RequestBody Event event){
+        return eventService.addEvent(event);
+    }
 
+    @PutMapping("/updateEvent")
+    public ResponseEntity<?> updateEvent(@RequestBody Event event){
+        return eventService.updateEvent(event);
+    }
     @PostMapping("/getEventByDate")
     public ResponseEntity<?> getEventByDate(@RequestBody DateBetweenBody date){
         return eventService.getEventByDate(date.getStartDate(), date.getEndDate());
     }
-    @PostMapping("/getEventByCategory")
-    public ResponseEntity<?> getEventByCategory(@RequestBody EventCategoryBody categoryBody){
-        System.out.println(categoryBody.getEventCatID());
-        return eventService.getEventByCategory( categoryBody.getEventCatID());
-    }
+
 
     @DeleteMapping("/deleteEvent/{eventID}")
     public ResponseEntity<?> deleteEvent(@PathVariable String eventID){
