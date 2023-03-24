@@ -23,14 +23,14 @@ public class EventService {
         if(!list.isEmpty()){
             return new ResponseEntity<>(list, HttpStatus.OK);
         }
-        return  new ResponseEntity<>("No Event Added", HttpStatus.BAD_REQUEST);
+        return  new ResponseEntity<>("No Event Added", HttpStatus.OK);
     }
     public ResponseEntity<?> getEventById(int id){
         try {
             Event event=eventRepo.findById(id).get();
             return new ResponseEntity<>(event, HttpStatus.OK);
         } catch (Exception e) {
-            return  new ResponseEntity<>("Event not exist", HttpStatus.BAD_REQUEST);
+            return  new ResponseEntity<>("Event not exist", HttpStatus.OK);
         }
     }
     public ResponseEntity<?> addEvent(Event ev){
@@ -41,30 +41,50 @@ public class EventService {
             return  new ResponseEntity<>("Some thing went wrong\n"+e.getMessage(), HttpStatus.OK);
         }
     }
-    public ResponseEntity<?> getEventByMode(boolean onlineType){
-        List<Event> list=new ArrayList<>();
-        list=eventRepo.getEventByMode(onlineType);
-        if(!list.isEmpty()){
-            return new ResponseEntity<>(list, HttpStatus.OK);
+    public ResponseEntity<?> deleteEvent(int id){
+        try {
+            eventRepo.deleteById(id);
+            return  new ResponseEntity<>("Event Deleted", HttpStatus.OK);
+        } catch (Exception e) {
+            return  new ResponseEntity<>("Some thing went wrong\n"+e.getMessage(), HttpStatus.OK);
         }
-        return  new ResponseEntity<>("No Event Added", HttpStatus.BAD_REQUEST);
+    }
+    public ResponseEntity<?> getEventByMode(boolean onlineType){
+        try {
+            List<Event> list=new ArrayList<>();
+            list=eventRepo.getEventByMode(onlineType);
+            if(!list.isEmpty()){
+                return new ResponseEntity<>(list, HttpStatus.OK);
+            }
+            return  new ResponseEntity<>("No Event Added", HttpStatus.OK);
+        } catch (Exception e) {
+            return  new ResponseEntity<>("Some thing went wrong\n"+e.getMessage(), HttpStatus.OK);
+        }
     }
 
     public ResponseEntity<?> getEventByDate(String startDate,String endDate){
-        List<Event> list=new ArrayList<>();
+        try {
+            List<Event> list=new ArrayList<>();
 
-        list=eventRepo.getEventByDate(startDate, endDate);
-        if(!list.isEmpty()){
-            return new ResponseEntity<>(list, HttpStatus.OK);
+            list=eventRepo.getEventByDate(startDate, endDate);
+            if(!list.isEmpty()){
+                return new ResponseEntity<>(list, HttpStatus.OK);
+            }
+            return  new ResponseEntity<>("No Event Added", HttpStatus.OK);
+        } catch (Exception e) {
+            return  new ResponseEntity<>("Some thing went wrong\n"+e.getMessage(), HttpStatus.OK);
         }
-        return  new ResponseEntity<>("No Event Added", HttpStatus.BAD_REQUEST);
     }
     public ResponseEntity<?> getEventByCategory(int eventCatID){
-        List<Event> list=new ArrayList<>();
-        list=eventRepo.getEventByCategory(eventCatID);
-        if(!list.isEmpty()){
-            return new ResponseEntity<>(list, HttpStatus.OK);
+        try {
+            List<Event> list=new ArrayList<>();
+            list=eventRepo.getEventByCategory(eventCatID);
+            if(!list.isEmpty()){
+                return new ResponseEntity<>(list, HttpStatus.OK);
+            }
+            return  new ResponseEntity<>("No Event Added", HttpStatus.OK);
+        } catch (Exception e) {
+            return  new ResponseEntity<>("Some thing went wrong\n"+e.getMessage(), HttpStatus.OK);
         }
-        return  new ResponseEntity<>("No Event Added", HttpStatus.BAD_REQUEST);
     }
 }

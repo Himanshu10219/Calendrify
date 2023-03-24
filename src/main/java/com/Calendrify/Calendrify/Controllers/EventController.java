@@ -50,4 +50,9 @@ public class EventController {
         return eventService.getEventByCategory( categoryBody.getEventCatID());
     }
 
+    @DeleteMapping("/deleteEvent/{eventID}")
+    public ResponseEntity<?> deleteEvent(@PathVariable String eventID){
+        return eventService.deleteEvent(Integer.parseInt(eventID));
+    }
+
 }
