@@ -36,6 +36,7 @@ public class EventController {
     }
     @PostMapping("/getEventByMode")
     public ResponseEntity<?> getEventByMode(@RequestBody String online){
+        //new
         return eventService.getEventByMode(Boolean.parseBoolean(online));
     }
 
