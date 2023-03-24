@@ -11,6 +11,7 @@ public class Useraddress {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "userID")
+
     private User userID;
 
     @Column(name = "addressline1")
