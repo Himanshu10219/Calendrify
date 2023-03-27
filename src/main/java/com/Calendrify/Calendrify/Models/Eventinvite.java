@@ -5,14 +5,11 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.Instant;
-import java.util.LinkedHashSet;
-import java.util.Set;
 
 @Entity
 @Table(name = "eventinvite")
 public class Eventinvite {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "inviteID", nullable = false)
     private Integer id;
 
@@ -28,9 +25,6 @@ public class Eventinvite {
 
     @Column(name = "inviteTime")
     private Instant inviteTime;
-
-    @OneToMany(mappedBy = "inviteID")
-    private Set<Comment> comments = new LinkedHashSet<>();
 
     public Integer getId() {
         return id;
@@ -62,14 +56,6 @@ public class Eventinvite {
 
     public void setInviteTime(Instant inviteTime) {
         this.inviteTime = inviteTime;
-    }
-
-    public Set<Comment> getComments() {
-        return comments;
-    }
-
-    public void setComments(Set<Comment> comments) {
-        this.comments = comments;
     }
 
 }

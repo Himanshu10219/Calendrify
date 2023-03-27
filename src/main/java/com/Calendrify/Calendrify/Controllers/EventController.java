@@ -3,7 +3,6 @@ package com.Calendrify.Calendrify.Controllers;
 import com.Calendrify.Calendrify.Handlers.ResponseHandler;
 import com.Calendrify.Calendrify.Models.Event;
 import com.Calendrify.Calendrify.Models.BodyResponse.DateBetweenBody;
-import com.Calendrify.Calendrify.Models.BodyResponse.EventCategoryBody;
 import com.Calendrify.Calendrify.Services.EventService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

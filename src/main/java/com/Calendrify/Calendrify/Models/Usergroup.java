@@ -1,10 +1,6 @@
 package com.Calendrify.Calendrify.Models;
 
 import jakarta.persistence.*;
-<<<<<<< HEAD
-=======
-import org.hibernate.annotations.Cascade;
->>>>>>> main
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -12,14 +8,7 @@ import org.hibernate.annotations.OnDeleteAction;
 @Table(name = "usergroup")
 public class Usergroup {
     @Id
-<<<<<<< HEAD
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "groupId", nullable = false)
-=======
-    @Column(name = "groupId", nullable = false)
-    @GeneratedValue(strategy =GenerationType.IDENTITY)
-
->>>>>>> main
     private Integer id;
 
     @Column(name = "name", nullable = false, length = 100)
@@ -29,11 +18,7 @@ public class Usergroup {
     private String description;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-<<<<<<< HEAD
     @OnDelete(action = OnDeleteAction.CASCADE)
-=======
-    @Cascade(org.hibernate.annotations.CascadeType.DELETE)
->>>>>>> main
     @JoinColumn(name = "createBy", nullable = false)
     private User createBy;
 

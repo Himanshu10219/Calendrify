@@ -6,15 +6,11 @@ import jakarta.persistence.*;
 @Table(name = "useraddress")
 public class Useraddress {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "addressID", nullable = false)
-    @GeneratedValue(strategy =GenerationType.IDENTITY)
-
     private Integer id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "userID")
-
     private User userID;
 
     @Column(name = "addressline1")
