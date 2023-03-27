@@ -1,19 +1,21 @@
 package com.Calendrify.Calendrify.Models;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 @Entity
 @Table(name = "comments")
 public class Comment {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "commentID", nullable = false)
     private Integer id;
 
-    @Column(name = "inviteID")
-    private Integer inviteID;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JoinColumn(name = "inviteID")
+    private Eventinvite inviteID;
 
     @Column(name = "response")
     private String response;
@@ -29,11 +31,11 @@ public class Comment {
         this.id = id;
     }
 
-    public Integer getInviteID() {
+    public Eventinvite getInviteID() {
         return inviteID;
     }
 
-    public void setInviteID(Integer inviteID) {
+    public void setInviteID(Eventinvite inviteID) {
         this.inviteID = inviteID;
     }
 

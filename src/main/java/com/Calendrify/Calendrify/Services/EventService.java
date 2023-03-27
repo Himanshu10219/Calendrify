@@ -1,6 +1,5 @@
 package com.Calendrify.Calendrify.Services;
 
-import com.Calendrify.Calendrify.Models.BodyResponse.AddEventBody;
 import com.Calendrify.Calendrify.Models.Event;
 import com.Calendrify.Calendrify.Repository.EventRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 @Service
 public class EventService {
@@ -23,14 +21,14 @@ public class EventService {
         if(!list.isEmpty()){
             return new ResponseEntity<>(list, HttpStatus.OK);
         }
-        return  new ResponseEntity<>("No Event Added", HttpStatus.BAD_REQUEST);
+        return  new ResponseEntity<>("No Event Added", HttpStatus.OK);
     }
     public ResponseEntity<?> getEventById(int id){
         try {
             Event event=eventRepo.findById(id).get();
             return new ResponseEntity<>(event, HttpStatus.OK);
         } catch (Exception e) {
-            return  new ResponseEntity<>("Event not exist", HttpStatus.BAD_REQUEST);
+            return  new ResponseEntity<>("Event not exist", HttpStatus.OK);
         }
     }
     public ResponseEntity<?> addEvent(Event ev){
@@ -47,7 +45,7 @@ public class EventService {
         if(!list.isEmpty()){
             return new ResponseEntity<>(list, HttpStatus.OK);
         }
-        return  new ResponseEntity<>("No Event Added", HttpStatus.BAD_REQUEST);
+        return  new ResponseEntity<>("No Event Added", HttpStatus.OK);
     }
 
     public ResponseEntity<?> getEventByDate(String startDate,String endDate){
@@ -57,7 +55,7 @@ public class EventService {
         if(!list.isEmpty()){
             return new ResponseEntity<>(list, HttpStatus.OK);
         }
-        return  new ResponseEntity<>("No Event Added", HttpStatus.BAD_REQUEST);
+        return  new ResponseEntity<>("No Event Added", HttpStatus.OK);
     }
     public ResponseEntity<?> getEventByCategory(int eventCatID){
         List<Event> list=new ArrayList<>();
@@ -65,6 +63,6 @@ public class EventService {
         if(!list.isEmpty()){
             return new ResponseEntity<>(list, HttpStatus.OK);
         }
-        return  new ResponseEntity<>("No Event Added", HttpStatus.BAD_REQUEST);
+        return  new ResponseEntity<>("No Event Added", HttpStatus.OK);
     }
 }

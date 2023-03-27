@@ -3,6 +3,8 @@ package com.Calendrify.Calendrify.Services;
 import com.Calendrify.Calendrify.Models.Eventinvite;
 import com.Calendrify.Calendrify.Repository.InviteRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -24,11 +26,27 @@ public class EventInviteService {
         return  null;
     }
 
-    public List<Eventinvite> geteventinviteById(int id)
+    public ResponseEntity<?> geteventinviteById(int id)
     {
-        Eventinvite list ;
-        list = inviteRepo.findById(id).get();
-        
-        return  null;
+        try {
+            Eventinvite list ;
+            list = inviteRepo.findById(id).get();
+            return new ResponseEntity<>(list, HttpStatus.OK);
+
+        } catch (Exception e) {
+
+            return  new ResponseEntity<>("Invite not exist", HttpStatus.OK);
+
+        }
+    }
+
+    public ResponseEntity<?> addEventInvite(Eventinvite einvite){
+        try {
+            inviteRepo.save(einvite);
+
+            return  new ResponseEntity<>("Invite Added", HttpStatus.OK);
+        } catch (Exception e) {
+            return  new ResponseEntity<>("Some thing went wrong\n"+e.getMessage(), HttpStatus.OK);
+        }
     }
 }

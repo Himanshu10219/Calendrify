@@ -2,13 +2,9 @@ package com.Calendrify.Calendrify.Repository;
 
 import com.Calendrify.Calendrify.Models.Event;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface EventRepo extends JpaRepository<Event, Integer> {
     @Query(value = "SELECT * FROM `events`",nativeQuery = true)
