@@ -8,6 +8,7 @@ public class Usergroupmapping {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "mapID", nullable = false)
+    @GeneratedValue(strategy =GenerationType.IDENTITY)
     private Integer id;
 
     @Column(name = "groupID")

@@ -10,6 +10,8 @@ public class Eventcategory {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "eventCatID", nullable = false)
+    @GeneratedValue(strategy =GenerationType.IDENTITY)
+
     private Integer id;
 
     @Column(name = "name", length = 50)

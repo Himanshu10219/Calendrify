@@ -8,6 +8,8 @@ public class City {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "cityID", nullable = false)
+    @GeneratedValue(strategy =GenerationType.IDENTITY)
+
     private Integer id;
 
     @Column(name = "Name")
