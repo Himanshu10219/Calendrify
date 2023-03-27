@@ -13,7 +13,7 @@ import java.time.LocalDate;
 public class Event {
     @Id
     @Column(name = "eventID", nullable = false)
-    @GeneratedValue(strategy =GenerationType.AUTO)
+    @GeneratedValue(strategy =GenerationType.IDENTITY)
     private Integer id;
 
     @Column(name = "title", length = 50)
@@ -42,6 +42,7 @@ public class Event {
 
     @ManyToOne
 //    @OnDelete(action = OnDeleteAction.CASCADE)
+    @Cascade(org.hibernate.annotations.CascadeType.PERSIST)
     @JoinColumn(name = "hostID")
     private User hostID;
 

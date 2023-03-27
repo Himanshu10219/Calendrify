@@ -37,8 +37,8 @@ public class EventController {
     public ResponseEntity<ResponseHandler> getEventByUserID(@PathVariable String hostID){
         return eventService.getEventByUserID(Integer.parseInt(hostID));
     }
-    @PostMapping("/getEventByMode")
-    public ResponseEntity<ResponseHandler> getEventByMode(@RequestBody String online){
+    @GetMapping("/getEventByMode/{online}")
+    public ResponseEntity<ResponseHandler> getEventByMode(@PathVariable String online){
 
         return eventService.getEventByMode(Boolean.parseBoolean(online));
     }

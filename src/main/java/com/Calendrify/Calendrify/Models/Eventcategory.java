@@ -9,7 +9,7 @@ import java.time.LocalDate;
 public class Eventcategory {
     @Id
     @Column(name = "eventCatID", nullable = false)
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Column(name = "name", length = 50)
