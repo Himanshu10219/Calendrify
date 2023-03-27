@@ -13,7 +13,10 @@ import java.time.LocalDate;
 public class Event {
     @Id
     @Column(name = "eventID", nullable = false)
+<<<<<<< HEAD
+=======
     @GeneratedValue(strategy =GenerationType.AUTO)
+>>>>>>> main
     private Integer id;
 
     @Column(name = "title", length = 50)
