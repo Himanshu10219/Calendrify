@@ -9,6 +9,7 @@ import org.hibernate.annotations.OnDeleteAction;
 public class Comment {
     @Id
     @Column(name = "commentID", nullable = false)
+    @GeneratedValue(strategy =GenerationType.IDENTITY)
     private Integer id;
 
     @ManyToOne(fetch = FetchType.LAZY)

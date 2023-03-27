@@ -1,6 +1,7 @@
 package com.Calendrify.Calendrify.Models;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -12,6 +13,7 @@ import java.time.LocalDate;
 public class Event {
     @Id
     @Column(name = "eventID", nullable = false)
+    @GeneratedValue(strategy =GenerationType.AUTO)
     private Integer id;
 
     @Column(name = "title", length = 50)
@@ -38,13 +40,13 @@ public class Event {
     @Column(name = "availability")
     private Boolean availability;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @OnDelete(action = OnDeleteAction.CASCADE)
+    @ManyToOne
+//    @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "hostID")
     private User hostID;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @OnDelete(action = OnDeleteAction.CASCADE)
+    @Cascade(org.hibernate.annotations.CascadeType.ALL)
     @JoinColumn(name = "eventCatID")
     private Eventcategory eventCatID;
 
@@ -56,9 +58,6 @@ public class Event {
 
     @Column(name = "isDeleted")
     private Boolean isDeleted;
-
-    @Column(name = "userID", nullable = false)
-    private Integer userID;
 
     public Integer getId() {
         return id;
@@ -170,14 +169,6 @@ public class Event {
 
     public void setIsDeleted(Boolean isDeleted) {
         this.isDeleted = isDeleted;
-    }
-
-    public Integer getUserID() {
-        return userID;
-    }
-
-    public void setUserID(Integer userID) {
-        this.userID = userID;
     }
 
 }

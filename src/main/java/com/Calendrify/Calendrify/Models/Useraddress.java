@@ -7,6 +7,7 @@ import jakarta.persistence.*;
 public class Useraddress {
     @Id
     @Column(name = "addressID", nullable = false)
+    @GeneratedValue(strategy =GenerationType.IDENTITY)
     private Integer id;
 
     @ManyToOne(fetch = FetchType.LAZY)

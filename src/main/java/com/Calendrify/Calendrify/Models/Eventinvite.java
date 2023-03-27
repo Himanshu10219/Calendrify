@@ -11,6 +11,7 @@ import java.time.Instant;
 public class Eventinvite {
     @Id
     @Column(name = "inviteID", nullable = false)
+    @GeneratedValue(strategy =GenerationType.IDENTITY)
     private Integer id;
 
     @ManyToOne(fetch = FetchType.LAZY)
