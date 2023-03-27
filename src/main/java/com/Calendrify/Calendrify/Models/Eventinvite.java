@@ -1,9 +1,6 @@
 package com.Calendrify.Calendrify.Models;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 import java.time.Instant;
 
@@ -12,6 +9,8 @@ import java.time.Instant;
 public class Eventinvite {
     @Id
     @Column(name = "inviteID", nullable = false)
+    @GeneratedValue(strategy =GenerationType.IDENTITY)
+
     private Integer id;
 
     @Column(name = "userID")

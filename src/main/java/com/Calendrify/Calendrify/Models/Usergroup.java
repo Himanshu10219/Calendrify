@@ -10,6 +10,8 @@ import org.hibernate.annotations.OnDeleteAction;
 public class Usergroup {
     @Id
     @Column(name = "groupId", nullable = false)
+    @GeneratedValue(strategy =GenerationType.IDENTITY)
+
     private Integer id;
 
     @Column(name = "name", nullable = false, length = 100)
