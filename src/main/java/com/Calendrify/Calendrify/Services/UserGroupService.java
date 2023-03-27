@@ -5,25 +5,24 @@ import com.Calendrify.Calendrify.Models.User;
 import com.Calendrify.Calendrify.Models.Usergroup;
 import com.Calendrify.Calendrify.Repository.UserGroupRepo;
 import com.Calendrify.Calendrify.Repository.UserRepo;
-import com.Calendrify.Calendrify.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
+
 import java.util.List;
 
 @Service
 public class UserGroupService {
 
     @Autowired
-    private UserGroupRepo userGroupRepo;
+     UserGroupRepo userGroupRepo;
 
     @Autowired
-    private UserRepo userRepo;
+    UserRepo userRepo;
 
     public ResponseEntity<ResponseHandler> getAllGroup(){
-        List<Usergroup> usergroupList=new ArrayList<>();
+        List<Usergroup> usergroupList;
         try{
             usergroupList=userGroupRepo.findAll();
             return (ResponseEntity<ResponseHandler>) ResponseHandler.GenerateResponse("Success", true, usergroupList);
@@ -36,8 +35,8 @@ public class UserGroupService {
 
     public ResponseEntity<ResponseHandler> getGroupById(int groupId) {
         try {
+            if (userGroupRepo.findById(groupId).isPresent()) {
             Usergroup usergroup = userGroupRepo.findById(groupId).get();
-            if (usergroup != null) {
                 return (ResponseEntity<ResponseHandler>) ResponseHandler.GenerateResponse("Success", true, usergroup);
             }
         }catch (Exception e){
@@ -48,9 +47,11 @@ public class UserGroupService {
 
 
     public ResponseEntity<ResponseHandler> createGroup(int userId, Usergroup usergroup) {
-        User isExistingUser=userRepo.findById(userId).get();
+
         try {
-            if (isExistingUser != null) {
+            if (userRepo.findById(userId).isPresent()) {
+                User isExistingUser=userRepo.findById(userId).get();
+                usergroup.setCreateBy(isExistingUser);
                 userGroupRepo.save(usergroup);
                 return (ResponseEntity<ResponseHandler>) ResponseHandler.GenerateResponse("Group Created!", true, usergroup);
             } else {
