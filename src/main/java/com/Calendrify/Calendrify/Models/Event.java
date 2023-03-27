@@ -13,8 +13,7 @@ import java.time.LocalDate;
 public class Event {
     @Id
     @Column(name = "eventID", nullable = false)
-    @GeneratedValue(strategy =GenerationType.IDENTITY)
-
+    @GeneratedValue(strategy =GenerationType.AUTO)
     private Integer id;
 
     @Column(name = "title", length = 50)
@@ -47,7 +46,7 @@ public class Event {
     private User hostID;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @Cascade(org.hibernate.annotations.CascadeType.ALL)
+    @Cascade(org.hibernate.annotations.CascadeType.MERGE)
     @JoinColumn(name = "eventCatID")
     private Eventcategory eventCatID;
 

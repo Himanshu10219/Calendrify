@@ -1,5 +1,6 @@
 package com.Calendrify.Calendrify.Controllers;
 
+import com.Calendrify.Calendrify.Handlers.ResponseHandler;
 import com.Calendrify.Calendrify.Models.Event;
 import com.Calendrify.Calendrify.Models.BodyResponse.DateBetweenBody;
 import com.Calendrify.Calendrify.Models.BodyResponse.EventCategoryBody;
@@ -22,43 +23,43 @@ public class EventController {
     @Autowired
     EventService eventService;
     @GetMapping("/getAllEvents")
-    public ResponseEntity<?> getAllEvents(){
+    public ResponseEntity<ResponseHandler> getAllEvents(){
         return eventService.getAllEvents();
     }
     @GetMapping("/getEventById/{eventID}")
-    public ResponseEntity<?> getEventById(@PathVariable String eventID){
+    public ResponseEntity<ResponseHandler> getEventById(@PathVariable String eventID){
         return eventService.getEventById(Integer.parseInt(eventID));
     }
     @GetMapping("/getEventByCategory/{eventCatID}")
-    public ResponseEntity<?> getEventByCategory(@PathVariable String eventCatID){
+    public ResponseEntity<ResponseHandler> getEventByCategory(@PathVariable String eventCatID){
         return eventService.getEventByCategory(Integer.parseInt(eventCatID));
     }
     @GetMapping("/getEventByUserID/{hostID}")
-    public ResponseEntity<?> getEventByUserID(@PathVariable String hostID){
+    public ResponseEntity<ResponseHandler> getEventByUserID(@PathVariable String hostID){
         return eventService.getEventByUserID(Integer.parseInt(hostID));
     }
     @PostMapping("/getEventByMode")
-    public ResponseEntity<?> getEventByMode(@RequestBody String online){
+    public ResponseEntity<ResponseHandler> getEventByMode(@RequestBody String online){
 
         return eventService.getEventByMode(Boolean.parseBoolean(online));
     }
     @PostMapping("/addEvent")
-    public ResponseEntity<?> addEvent(@RequestBody Event event){
+    public ResponseEntity<ResponseHandler> addEvent(@RequestBody Event event){
         return eventService.addEvent(event);
     }
 
     @PutMapping("/updateEvent")
-    public ResponseEntity<?> updateEvent(@RequestBody Event event){
+    public ResponseEntity<ResponseHandler> updateEvent(@RequestBody Event event){
         return eventService.updateEvent(event);
     }
     @PostMapping("/getEventByDate")
-    public ResponseEntity<?> getEventByDate(@RequestBody DateBetweenBody date){
+    public ResponseEntity<ResponseHandler> getEventByDate(@RequestBody DateBetweenBody date){
         return eventService.getEventByDate(date.getStartDate(), date.getEndDate());
     }
 
 
     @DeleteMapping("/deleteEvent/{eventID}")
-    public ResponseEntity<?> deleteEvent(@PathVariable String eventID){
+    public ResponseEntity<ResponseHandler> deleteEvent(@PathVariable String eventID){
         return eventService.deleteEvent(Integer.parseInt(eventID));
     }
 
