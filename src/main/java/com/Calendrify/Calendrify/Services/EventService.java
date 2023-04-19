@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @SuppressWarnings("unchecked")
@@ -14,11 +15,32 @@ public class EventService {
     @Autowired
     EventRepo eventRepo;
 
-    public ResponseEntity<ResponseHandler> getAllEvents() {
+    public ResponseEntity<ResponseHandler> getAllEvents(String eventID, String eventCatID, String online, String hostID) {
         try {
-            List<Event> list;
-            list = eventRepo.findAll();
+            List<Event> list= eventRepo.findAll();
             if (!list.isEmpty()) {
+                if (eventID != null) {
+                    list = list.stream()
+                            .filter(item -> item.getId().equals(Integer.parseInt(eventID)))
+                            .collect(Collectors.toList());
+                }
+                if (eventCatID != null) {
+                    list = list.stream()
+                            .filter(item ->
+                                    item.getEventCatID().getId()
+                                            .equals(Integer.parseInt(eventCatID)))
+                            .collect(Collectors.toList());
+                }
+                if (online != null) {
+                    list = list.stream()
+                            .filter(item -> item.getOnline().equals(Boolean.parseBoolean(online)))
+                            .collect(Collectors.toList());
+                }
+                if (hostID != null) {
+                    list = list.stream()
+                            .filter(item -> item.getHostID().getId().equals(Integer.parseInt(hostID)))
+                            .collect(Collectors.toList());
+                }
                 return (ResponseEntity<ResponseHandler>) ResponseHandler.GenerateResponse("Success", true, list);
             } else {
                 return (ResponseEntity<ResponseHandler>) ResponseHandler.GenerateResponse("Event not exist", false, null);
@@ -28,24 +50,11 @@ public class EventService {
         }
     }
 
-    public ResponseEntity<ResponseHandler> getEventById(int id) {
-        try {
-            if(eventRepo.findById(id).isPresent()) {
-                return (ResponseEntity<ResponseHandler>) ResponseHandler.GenerateResponse("Success", true, eventRepo.findById(id).get());
-            }else{
-                return (ResponseEntity<ResponseHandler>) ResponseHandler.GenerateResponse("Event not exist",false,null);
-            }
-        } catch (Exception e) {
-            return (ResponseEntity<ResponseHandler>) ResponseHandler.GenerateResponse(e.getMessage(), false,null);
-        }
-    }
-
     public ResponseEntity<ResponseHandler> addEvent(Event ev) {
         try {
             eventRepo.save(ev);
             return (ResponseEntity<ResponseHandler>) ResponseHandler.GenerateResponse("Event Added successfully", true);
         } catch (Exception e) {
-            System.out.println(e.getStackTrace());
             return (ResponseEntity<ResponseHandler>) ResponseHandler.GenerateResponse(e.getMessage(), false);
         }
     }
@@ -76,20 +85,7 @@ public class EventService {
         }
     }
 
-    public ResponseEntity<ResponseHandler> getEventByMode(boolean onlineType) {
-        try {
-            List<Event> list;
-            list = eventRepo.getEventByMode(onlineType);
-            if (!list.isEmpty()) {
-                return (ResponseEntity<ResponseHandler>) ResponseHandler.GenerateResponse("Success", true, list);
-            } else {
-                return (ResponseEntity<ResponseHandler>) ResponseHandler.GenerateResponse("Success", false, null);
-            }
 
-        } catch (Exception e) {
-            return (ResponseEntity<ResponseHandler>) ResponseHandler.GenerateResponse(e.getMessage(), false, null);
-        }
-    }
 
     public ResponseEntity<ResponseHandler> getEventByDate(String startDate, String endDate) {
         try {
@@ -106,32 +102,5 @@ public class EventService {
         }
     }
 
-    public ResponseEntity<ResponseHandler> getEventByCategory(int eventCatID) {
-        try {
-            List<Event> list;
-            list = eventRepo.getEventByCategory(eventCatID);
-            if (!list.isEmpty()) {
-                return (ResponseEntity<ResponseHandler>) ResponseHandler.GenerateResponse("Success", true, list);
-            } else {
-                return (ResponseEntity<ResponseHandler>) ResponseHandler.GenerateResponse("Success", false, null);
-            }
 
-        } catch (Exception e) {
-            return (ResponseEntity<ResponseHandler>) ResponseHandler.GenerateResponse(e.getMessage(), false, null);
-        }
-    }
-
-    public ResponseEntity<ResponseHandler> getEventByUserID(int userID) {
-        try {
-            List<Event> list;
-            list = eventRepo.getEventByUserId(userID);
-            if (!list.isEmpty()) {
-                return (ResponseEntity<ResponseHandler>) ResponseHandler.GenerateResponse("Success", true, list);
-            } else {
-                return (ResponseEntity<ResponseHandler>) ResponseHandler.GenerateResponse("Success", false,null);
-            }
-        } catch (Exception e) {
-            return (ResponseEntity<ResponseHandler>) ResponseHandler.GenerateResponse(e.getMessage(), false, null);
-        }
-    }
 }
