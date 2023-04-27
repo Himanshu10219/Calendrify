@@ -1,14 +1,11 @@
 package com.Calendrify.Calendrify.Controllers;
 
-import com.Calendrify.Calendrify.Handlers.ResponseHandler;
+import com.Calendrify.Calendrify.Healpers.Handlers.ResponseHandler;
 import com.Calendrify.Calendrify.Models.User;
 import com.Calendrify.Calendrify.Services.UserService;
-import org.hibernate.Internal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api")

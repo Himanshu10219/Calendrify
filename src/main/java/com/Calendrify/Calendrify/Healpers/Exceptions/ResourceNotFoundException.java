@@ -1,5 +1,4 @@
-package com.Calendrify.Calendrify.exceptions;
-
+package com.Calendrify.Calendrify.Healpers.Exceptions;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;

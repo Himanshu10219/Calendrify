@@ -1,22 +1,20 @@
 package com.Calendrify.Calendrify.Services;
 
-import com.Calendrify.Calendrify.Handlers.ResponseHandler;
+import com.Calendrify.Calendrify.Healpers.Exceptions.ResourceNotFoundException;
+import com.Calendrify.Calendrify.Healpers.Handlers.ResponseHandler;
 import com.Calendrify.Calendrify.Models.Event;
 import com.Calendrify.Calendrify.Models.User;
 import com.Calendrify.Calendrify.Repository.EventRepo;
 import com.Calendrify.Calendrify.Repository.UserRepo;
-import com.Calendrify.Calendrify.exceptions.ResourceNotFoundException;
-import com.fasterxml.jackson.core.JsonToken;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
+@SuppressWarnings("unchecked")
 public class UserService {
     @Autowired
     UserRepo userRepo;

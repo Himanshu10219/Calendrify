@@ -1,6 +1,6 @@
 package com.Calendrify.Calendrify.Controllers;
 
-import com.Calendrify.Calendrify.Handlers.ResponseHandler;
+import com.Calendrify.Calendrify.Healpers.Handlers.ResponseHandler;
 import com.Calendrify.Calendrify.Models.Usergroup;
 import com.Calendrify.Calendrify.Services.UserGroupService;
 import org.springframework.beans.factory.annotation.Autowired;

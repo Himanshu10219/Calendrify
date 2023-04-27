@@ -1,6 +1,6 @@
 package com.Calendrify.Calendrify.Controllers;
 
-import com.Calendrify.Calendrify.Handlers.ResponseHandler;
+import com.Calendrify.Calendrify.Healpers.Handlers.ResponseHandler;
 import com.Calendrify.Calendrify.Models.Event;
 import com.Calendrify.Calendrify.Models.BodyResponse.DateBetweenBody;
 import com.Calendrify.Calendrify.Repository.EventRepo;
@@ -12,9 +12,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @Controller

@@ -1,4 +1,4 @@
-package com.Calendrify.Calendrify.Handlers;
+package com.Calendrify.Calendrify.Healpers.Handlers;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
