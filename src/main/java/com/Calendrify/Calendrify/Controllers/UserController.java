@@ -13,27 +13,28 @@ public class UserController {
 
     @Autowired
     UserService userService;
-    @GetMapping("/users")
-    public ResponseEntity<ResponseHandler> getAllUsers(){
-        return userService.getAllUsers();
+    @GetMapping("/getAllUsers")
+    public ResponseEntity<ResponseHandler> getAllUsers(@RequestParam(required = false) String userID,
+                                                       @RequestParam(required = false) String email){
+        return userService.getAllUsers(userID,email);
     }
 
-    @GetMapping("/users/{userId}")
+    @GetMapping("/getUserById/{userId}")
     public ResponseEntity<ResponseHandler> getUserById(@PathVariable String userId){
         return userService.getUserById(Integer.parseInt(userId));
     }
 
-    @DeleteMapping("/users/{userId}")
+    @DeleteMapping("/deleteUserById/{userId}")
     public ResponseEntity<ResponseHandler> deleteUserById(@PathVariable String userId){
         return userService.deleteUserById(Integer.parseInt(userId));
     }
 
-    @RequestMapping(value = "/users/save",method = RequestMethod.POST)
+    @PostMapping("/addUser")
     public ResponseEntity<ResponseHandler> addUser(@RequestBody User user){
         return userService.addUser(user);
     }
 
-    @RequestMapping(value = "/users/{userId}",method = RequestMethod.PUT)
+    @RequestMapping(value = "/updateUserById/{userId}",method = RequestMethod.PUT)
     public ResponseEntity<ResponseHandler> updateUserById(@PathVariable String userId, @RequestBody User user){
         return userService.updateUserById(Integer.parseInt(userId),user);
     }

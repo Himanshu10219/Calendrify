@@ -7,7 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/notification")
+@RequestMapping("/api")
 public class NotificationController {
     private final OneSignalService oneSignalService;
 
