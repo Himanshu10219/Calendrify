@@ -1,6 +1,6 @@
 package com.Calendrify.Calendrify.Services;
 
-import com.Calendrify.Calendrify.Handlers.ResponseHandler;
+import com.Calendrify.Calendrify.Healpers.Handlers.ResponseHandler;
 import com.Calendrify.Calendrify.Models.User;
 import com.Calendrify.Calendrify.Models.Usergroup;
 import com.Calendrify.Calendrify.Repository.UserGroupRepo;

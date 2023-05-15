@@ -11,7 +11,7 @@ import java.util.List;
 
 @RestController
 @Controller
-@RequestMapping("/eventsinvite")
+@RequestMapping("/api")
 public class EventInviteController {
 
     @Autowired
