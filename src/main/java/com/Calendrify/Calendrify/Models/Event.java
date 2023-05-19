@@ -15,8 +15,8 @@ import java.time.LocalDateTime;
 @Table(name = "events")
 public class Event {
     @Id
-    @Column(name = "eventID", nullable = false)
-    @GeneratedValue(strategy =GenerationType.IDENTITY)
+    @Column(name = "eventID")
+    @GeneratedValue(strategy =GenerationType.AUTO)
     private Integer id;
 
     @Column(name = "title", length = 50)
@@ -24,6 +24,7 @@ public class Event {
 
     @Column(name = "description")
     private String description;
+
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     @Column(name = "startDateTime")
     private LocalDateTime startDateTime;
@@ -43,14 +44,18 @@ public class Event {
     @Column(name = "availability")
     private Boolean availability;
 
-    @ManyToOne
-//    @OnDelete(action = OnDeleteAction.CASCADE)
-    @Cascade(org.hibernate.annotations.CascadeType.PERSIST)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @Cascade(org.hibernate.annotations.CascadeType.MERGE)
     @JoinColumn(name = "hostID")
     private User hostID;
 
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @Cascade(org.hibernate.annotations.CascadeType.MERGE)
+    @JoinColumn(name = "groupid", nullable = false)
+    private Usergroup groupid;
+
     @ManyToOne(fetch = FetchType.LAZY)
-    @Cascade(org.hibernate.annotations.CascadeType.ALL)
+    @Cascade(org.hibernate.annotations.CascadeType.MERGE)
     @JoinColumn(name = "eventCatID")
     private Eventcategory eventCatID;
 
@@ -141,6 +146,14 @@ public class Event {
 
     public void setHostID(User hostID) {
         this.hostID = hostID;
+    }
+
+    public Usergroup getGroupid() {
+        return groupid;
+    }
+
+    public void setGroupid(Usergroup groupid) {
+        this.groupid = groupid;
     }
 
     public Eventcategory getEventCatID() {

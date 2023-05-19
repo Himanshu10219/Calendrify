@@ -1,20 +1,26 @@
 package com.Calendrify.Calendrify.Models;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 @Entity
 @Table(name = "usergroupmapping")
 public class Usergroupmapping {
     @Id
     @Column(name = "mapID", nullable = false)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy =GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "groupID")
-    private Integer groupID;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JoinColumn(name = "groupID")
+    private Usergroup groupID;
 
-    @Column(name = "userID")
-    private Integer userID;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JoinColumn(name = "userID")
+    private User userID;
 
     public Integer getId() {
         return id;
@@ -24,19 +30,19 @@ public class Usergroupmapping {
         this.id = id;
     }
 
-    public Integer getGroupID() {
+    public Usergroup getGroupID() {
         return groupID;
     }
 
-    public void setGroupID(Integer groupID) {
+    public void setGroupID(Usergroup groupID) {
         this.groupID = groupID;
     }
 
-    public Integer getUserID() {
+    public User getUserID() {
         return userID;
     }
 
-    public void setUserID(Integer userID) {
+    public void setUserID(User userID) {
         this.userID = userID;
     }
 

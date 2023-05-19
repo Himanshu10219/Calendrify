@@ -1,8 +1,10 @@
 package com.Calendrify.Calendrify.Models;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
-import java.time.Instant;
 import java.time.LocalDate;
 
 @Entity
@@ -10,14 +12,13 @@ import java.time.LocalDate;
 public class Eventcategory {
     @Id
     @Column(name = "eventCatID", nullable = false)
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
     @Column(name = "name", length = 50)
     private String name;
 
     @Column(name = "createdAt")
-    private Instant createdAt;
+    private LocalDate createdAt;
 
     public Integer getId() {
         return id;
@@ -35,11 +36,11 @@ public class Eventcategory {
         this.name = name;
     }
 
-    public Instant getCreatedAt() {
+    public LocalDate getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(Instant createdAt) {
+    public void setCreatedAt(LocalDate createdAt) {
         this.createdAt = createdAt;
     }
 
