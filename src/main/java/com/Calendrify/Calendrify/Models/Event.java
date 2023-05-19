@@ -1,5 +1,7 @@
 package com.Calendrify.Calendrify.Models;
 
+import com.Calendrify.Calendrify.Healpers.LocalDateTimeDeserializer;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import jakarta.persistence.*;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.OnDelete;
@@ -7,6 +9,7 @@ import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.Instant;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "events")
@@ -21,12 +24,12 @@ public class Event {
 
     @Column(name = "description")
     private String description;
-
+    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     @Column(name = "startDateTime")
-    private Instant startDateTime;
-
+    private LocalDateTime startDateTime;
+    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     @Column(name = "endDateTime")
-    private Instant endDateTime;
+    private LocalDateTime endDateTime;
 
     @Column(name = "online")
     private Boolean online;
@@ -84,19 +87,19 @@ public class Event {
         this.description = description;
     }
 
-    public Instant getStartDateTime() {
+    public LocalDateTime getStartDateTime() {
         return startDateTime;
     }
 
-    public void setStartDateTime(Instant startDateTime) {
+    public void setStartDateTime(LocalDateTime startDateTime) {
         this.startDateTime = startDateTime;
     }
 
-    public Instant getEndDateTime() {
+    public LocalDateTime getEndDateTime() {
         return endDateTime;
     }
 
-    public void setEndDateTime(Instant endDateTime) {
+    public void setEndDateTime(LocalDateTime endDateTime) {
         this.endDateTime = endDateTime;
     }
 
