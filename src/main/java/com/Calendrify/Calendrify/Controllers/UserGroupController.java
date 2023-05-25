@@ -13,12 +13,12 @@ public class UserGroupController {
 
     @Autowired
     UserGroupService userGroupService;
-    @GetMapping("/group")
+    @GetMapping("/addGroup")
     public ResponseEntity<ResponseHandler> getAllGroup(){
         return userGroupService.getAllGroup();
     }
 
-    @GetMapping("/group/{groupId}")
+    @GetMapping("/getGroup/{groupId}")
     public ResponseEntity<ResponseHandler> getGroupById(@PathVariable String groupId){
         return userGroupService.getGroupById(Integer.parseInt(groupId));
     }
