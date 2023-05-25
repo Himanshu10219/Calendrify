@@ -1,6 +1,7 @@
 package com.Calendrify.Calendrify.Models;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -19,7 +20,7 @@ public class Usergroup {
     private String description;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @OnDelete(action = OnDeleteAction.CASCADE)
+    @Cascade(org.hibernate.annotations.CascadeType.PERSIST)
     @JoinColumn(name = "createBy", nullable = false)
     private User createBy;
 

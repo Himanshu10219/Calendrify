@@ -48,6 +48,7 @@ public class EventService {
                 return (ResponseEntity<ResponseHandler>) ResponseHandler.GenerateResponse("Event not exist", false, null);
             }
         } catch (Exception e) {
+            System.out.println(e.getMessage());
             return (ResponseEntity<ResponseHandler>) ResponseHandler.GenerateResponse(e.getMessage(), false, null);
         }
     }
@@ -57,6 +58,7 @@ public class EventService {
             eventRepo.save(ev);
             return (ResponseEntity<ResponseHandler>) ResponseHandler.GenerateResponse("Event Added successfully", true);
         } catch (Exception e) {
+            System.out.println(e.getMessage());
             return (ResponseEntity<ResponseHandler>) ResponseHandler.GenerateResponse(e.getMessage(), false);
         }
     }

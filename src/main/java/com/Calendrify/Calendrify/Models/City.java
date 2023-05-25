@@ -7,7 +7,6 @@ import jakarta.persistence.*;
 public class City {
     @Id
     @Column(name = "cityID", nullable = false)
-    @GeneratedValue(strategy =GenerationType.IDENTITY)
     private Integer id;
 
     @Column(name = "Name")

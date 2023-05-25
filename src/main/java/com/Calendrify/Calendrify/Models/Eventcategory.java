@@ -1,6 +1,9 @@
 package com.Calendrify.Calendrify.Models;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 import java.time.LocalDate;
 
@@ -9,7 +12,6 @@ import java.time.LocalDate;
 public class Eventcategory {
     @Id
     @Column(name = "eventCatID", nullable = false)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Column(name = "name", length = 50)
