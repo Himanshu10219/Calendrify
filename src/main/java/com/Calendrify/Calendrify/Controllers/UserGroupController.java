@@ -14,13 +14,18 @@ public class UserGroupController {
     @Autowired
     UserGroupService userGroupService;
 
-    @GetMapping("userGroup/get")
-    public ResponseEntity<ResponseHandler> getGroupById(@RequestParam(required = false) String groupId){
-        return userGroupService.getGroupById(groupId);
+    @GetMapping("/addGroup")
+    public ResponseEntity<ResponseHandler> getAllGroup() {
+        return userGroupService.getAllGroup();
     }
 
-    @PostMapping("/add/{userId}")
-    public ResponseEntity<ResponseHandler> createGroup(@PathVariable String userId, @RequestBody Usergroup usergroup){
-        return userGroupService.createGroup(Integer.parseInt(userId),usergroup);
+    @GetMapping("/getGroup/{groupId}")
+    public ResponseEntity<ResponseHandler> getGroupById(@PathVariable String groupId) {
+        return userGroupService.getGroupById(Integer.parseInt(groupId));
+    }
+
+    @PostMapping("/group/{userId}")
+    public ResponseEntity<ResponseHandler> createGroup(@PathVariable String userId, @RequestBody Usergroup usergroup) {
+        return userGroupService.createGroup(Integer.parseInt(userId), usergroup);
     }
 }
