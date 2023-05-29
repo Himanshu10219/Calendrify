@@ -22,7 +22,7 @@ public class EventController {
     @Autowired
     EventService eventService;
 
-    @GetMapping("/getAllEvents")
+    @GetMapping("event/get")
     public ResponseEntity<ResponseHandler> getAllEvents(@RequestParam(required = false) String eventID,
                                                         @RequestParam(required = false) String eventCatID,
                                                         @RequestParam(required = false) String online,
@@ -30,23 +30,23 @@ public class EventController {
         return eventService.getAllEvents(eventID,eventCatID,online,hostID);
     }
 
-    @PostMapping("/addEvent")
+    @PostMapping("event/add")
     public ResponseEntity<ResponseHandler> addEvent(@RequestBody Event event) {
         return eventService.addEvent(event);
     }
 
-    @PutMapping("/updateEvent")
+    @PutMapping("event/update")
     public ResponseEntity<ResponseHandler> updateEvent(@RequestBody Event event) {
         return eventService.updateEvent(event);
     }
 
-    @PostMapping("/getEventByDate")
+    @PostMapping("event/getByDate")
     public ResponseEntity<ResponseHandler> getEventByDate(@RequestBody DateBetweenBody date) {
         return eventService.getEventByDate(date.getStartDate(), date.getEndDate());
     }
 
 
-    @DeleteMapping("/deleteEvent/{eventID}")
+    @DeleteMapping("event/delete/{eventID}")
     public ResponseEntity<ResponseHandler> deleteEvent(@PathVariable String eventID) {
         return eventService.deleteEvent(Integer.parseInt(eventID));
     }

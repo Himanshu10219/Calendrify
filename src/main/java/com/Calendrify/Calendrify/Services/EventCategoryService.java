@@ -1,6 +1,7 @@
 package com.Calendrify.Calendrify.Services;
 
 import com.Calendrify.Calendrify.Healpers.Handlers.ResponseHandler;
+import com.Calendrify.Calendrify.Models.Event;
 import com.Calendrify.Calendrify.Models.Eventcategory;
 import com.Calendrify.Calendrify.Repository.EventCategoryRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +36,16 @@ public class EventCategoryService {
             }
         } catch (Exception e) {
             return (ResponseEntity<ResponseHandler>) ResponseHandler.GenerateResponse(e.getMessage(), false, null);
+        }
+    }
+
+    public ResponseEntity<ResponseHandler> addEventCategory(Eventcategory ev) {
+        try {
+            eventCategoryRepo.save(ev);
+            return (ResponseEntity<ResponseHandler>) ResponseHandler.GenerateResponse("Event Category Added successfully", true);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return (ResponseEntity<ResponseHandler>) ResponseHandler.GenerateResponse(e.getMessage(), false);
         }
     }
 }

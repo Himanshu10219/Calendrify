@@ -103,6 +103,8 @@ public class UserService {
                     orElseThrow(() -> new ResourceNotFoundException("User not Found"));
 
             updateUser.setEmail(user.getEmail()==null?updateUser.getEmail(): user.getEmail());
+            updateUser.setDeviceToken(user.getDeviceToken()==null?updateUser.getDeviceToken(): user.getDeviceToken());
+            updateUser.setDob(user.getDob()==null?updateUser.getDob(): user.getDob());
             updateUser.setPassword(user.getPassword()==null?updateUser.getPassword(): user.getPassword());
             updateUser.setCreatedAt(user.getEmail()==null?updateUser.getCreatedAt(): user.getCreatedAt());
             updateUser.setIsDeleted(user.getIsDeleted()==null?updateUser.getIsDeleted(): user.getIsDeleted());

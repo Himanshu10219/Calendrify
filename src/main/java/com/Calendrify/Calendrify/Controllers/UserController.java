@@ -13,28 +13,28 @@ public class UserController {
 
     @Autowired
     UserService userService;
-    @GetMapping("/getAllUsers")
+    @GetMapping("user/get")
     public ResponseEntity<ResponseHandler> getAllUsers(@RequestParam(required = false) String userID,
                                                        @RequestParam(required = false) String email){
         return userService.getAllUsers(userID,email);
     }
 
-    @GetMapping("/getUserById/{userId}")
+    @GetMapping("user/getUserById/{userId}")
     public ResponseEntity<ResponseHandler> getUserById(@PathVariable String userId){
         return userService.getUserById(Integer.parseInt(userId));
     }
 
-    @DeleteMapping("/deleteUserById/{userId}")
+    @DeleteMapping("user/delete/{userId}")
     public ResponseEntity<ResponseHandler> deleteUserById(@PathVariable String userId){
         return userService.deleteUserById(Integer.parseInt(userId));
     }
 
-    @PostMapping("/addUser")
+    @PostMapping("user/add")
     public ResponseEntity<ResponseHandler> addUser(@RequestBody User user){
         return userService.addUser(user);
     }
 
-    @RequestMapping(value = "/updateUserById/{userId}",method = RequestMethod.PUT)
+    @RequestMapping(value = "user/update/{userId}",method = RequestMethod.PUT)
     public ResponseEntity<ResponseHandler> updateUserById(@PathVariable String userId, @RequestBody User user){
         return userService.updateUserById(Integer.parseInt(userId),user);
     }
