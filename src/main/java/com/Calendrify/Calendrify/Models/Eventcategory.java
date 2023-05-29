@@ -8,8 +8,8 @@ import java.time.LocalDate;
 @Table(name = "eventcategory")
 public class Eventcategory {
     @Id
-    @Column(name = "eventCatID", nullable = false)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "eventCatID")
+    @GeneratedValue(strategy =GenerationType.AUTO)
     private Integer id;
 
     @Column(name = "name", length = 50)

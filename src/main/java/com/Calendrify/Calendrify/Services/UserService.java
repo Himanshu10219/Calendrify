@@ -91,18 +91,20 @@ public class UserService {
             return (ResponseEntity<ResponseHandler>) ResponseHandler.GenerateResponse("User Added!", true);
         } catch (Exception e) {
             System.out.println("Save User Error:" + e.getMessage());
+            return (ResponseEntity<ResponseHandler>) ResponseHandler.GenerateResponse("Something went wrong!"+e.getMessage(), false);
         }
-        return (ResponseEntity<ResponseHandler>) ResponseHandler.GenerateResponse("Something went wrong!", false);
     }
 
 
     public ResponseEntity<ResponseHandler> updateUserById(int id, User user) {
-        User updateUser = null;
         try {
+            User updateUser = null;
             updateUser = userRepo.findById(id).
                     orElseThrow(() -> new ResourceNotFoundException("User not Found"));
 
             updateUser.setEmail(user.getEmail()==null?updateUser.getEmail(): user.getEmail());
+            updateUser.setDeviceToken(user.getDeviceToken()==null?updateUser.getDeviceToken(): user.getDeviceToken());
+            updateUser.setDob(user.getDob()==null?updateUser.getDob(): user.getDob());
             updateUser.setPassword(user.getPassword()==null?updateUser.getPassword(): user.getPassword());
             updateUser.setCreatedAt(user.getEmail()==null?updateUser.getCreatedAt(): user.getCreatedAt());
             updateUser.setIsDeleted(user.getIsDeleted()==null?updateUser.getIsDeleted(): user.getIsDeleted());
@@ -110,11 +112,9 @@ public class UserService {
             updateUser.setLastName(user.getLastName()==null?updateUser.getLastName(): user.getLastName());
             updateUser.setMobile(user.getMobile()==null?updateUser.getMobile(): user.getMobile());
             userRepo.save(updateUser);
+            return (ResponseEntity<ResponseHandler>) ResponseHandler.GenerateResponse("User Updated!!", true, updateUser);
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            return (ResponseEntity<ResponseHandler>) ResponseHandler.GenerateResponse("User not Updated!!"+e.getMessage(), true);
         }
-        return (ResponseEntity<ResponseHandler>) ResponseHandler.GenerateResponse("User Updated!!", true, updateUser);
-
-
     }
 }

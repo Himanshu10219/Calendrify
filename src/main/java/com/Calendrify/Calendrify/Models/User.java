@@ -8,8 +8,8 @@ import java.time.LocalDate;
 @Table(name = "users")
 public class User {
     @Id
-    @Column(name = "userID", nullable = false)
-    @GeneratedValue(strategy =GenerationType.IDENTITY)
+    @Column(name = "userID")
+    @GeneratedValue(strategy =GenerationType.AUTO)
     private Integer id;
 
     @Column(name = "firstName", length = 50)
@@ -18,14 +18,35 @@ public class User {
     @Column(name = "lastName", length = 50)
     private String lastName;
 
-    @Column(name = "email", nullable = false)
-    private String email;
-
     @Column(name = "password")
     private String password;
 
+    @Column(name = "dob")
+    private LocalDate dob;
+
     @Column(name = "mobile", length = 13)
     private String mobile;
+
+    @Column(name = "token", nullable = false)
+    private String token;
+
+    @Column(name = "deviceToken", nullable = false)
+    private String deviceToken;
+
+    @Column(name = "profileURL", nullable = false)
+    private String profileURL;
+
+    @Column(name = "email", nullable = false)
+    private String email;
+
+    @Column(name = "city", nullable = false)
+    private String city;
+
+    @Column(name = "state", nullable = false)
+    private String state;
+
+    @Column(name = "country", nullable = false)
+    private String country;
 
     @Column(name = "createdAt")
     private LocalDate createdAt;
@@ -57,14 +78,6 @@ public class User {
         this.lastName = lastName;
     }
 
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
     public String getPassword() {
         return password;
     }
@@ -73,12 +86,76 @@ public class User {
         this.password = password;
     }
 
+    public LocalDate getDob() {
+        return dob;
+    }
+
+    public void setDob(LocalDate dob) {
+        this.dob = dob;
+    }
+
     public String getMobile() {
         return mobile;
     }
 
     public void setMobile(String mobile) {
         this.mobile = mobile;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    public String getDeviceToken() {
+        return deviceToken;
+    }
+
+    public void setDeviceToken(String deviceToken) {
+        this.deviceToken = deviceToken;
+    }
+
+    public String getProfileURL() {
+        return profileURL;
+    }
+
+    public void setProfileURL(String profileURL) {
+        this.profileURL = profileURL;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
     }
 
     public LocalDate getCreatedAt() {
