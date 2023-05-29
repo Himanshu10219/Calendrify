@@ -14,14 +14,9 @@ public class UserGroupController {
     @Autowired
     UserGroupService userGroupService;
 
-    @GetMapping("/addGroup")
-    public ResponseEntity<ResponseHandler> getAllGroup() {
-        return userGroupService.getAllGroup();
-    }
-
-    @GetMapping("/getGroup/{groupId}")
-    public ResponseEntity<ResponseHandler> getGroupById(@PathVariable String groupId) {
-        return userGroupService.getGroupById(Integer.parseInt(groupId));
+    @GetMapping("userGroup/get")
+    public ResponseEntity<ResponseHandler> getGroupById(@RequestParam(required = false) String groupId){
+        return userGroupService.getGroupById(groupId);
     }
 
     @PostMapping("/group/{userId}")
