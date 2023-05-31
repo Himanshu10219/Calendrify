@@ -36,9 +36,9 @@ public class EventController {
         return eventService.addEvent(event);
     }
 
-    @PutMapping("event/update")
-    public ResponseEntity<ResponseHandler> updateEvent(@RequestBody Event event) {
-        return eventService.updateEvent(event);
+    @PutMapping("event/update/{eventID}")
+    public ResponseEntity<ResponseHandler> updateEvent(@PathVariable String eventID,@RequestBody Event event) {
+        return eventService.updateEvent(Integer.parseInt(eventID),event);
     }
 
     @PostMapping("event/getByDate")

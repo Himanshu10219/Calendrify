@@ -109,7 +109,7 @@ public class UserService {
             updateUser.setCity(user.getCity()==null?updateUser.getCity(): user.getCity());
             updateUser.setState(user.getState()==null?updateUser.getState(): user.getState());
             updateUser.setPassword(user.getPassword()==null?updateUser.getPassword(): user.getPassword());
-            updateUser.setCreatedAt(user.getEmail()==null?updateUser.getCreatedAt(): user.getCreatedAt());
+            updateUser.setCreatedAt(user.getCreatedAt()==null?updateUser.getCreatedAt(): user.getCreatedAt());
             updateUser.setIsDeleted(user.getIsDeleted()==null?updateUser.getIsDeleted(): user.getIsDeleted());
             updateUser.setFirstName(user.getFirstName()==null?updateUser.getFirstName(): user.getFirstName());
             updateUser.setLastName(user.getLastName()==null?updateUser.getLastName(): user.getLastName());

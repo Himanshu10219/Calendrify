@@ -1,7 +1,9 @@
 package com.Calendrify.Calendrify.Services;
 
+import com.Calendrify.Calendrify.Healpers.Exceptions.ResourceNotFoundException;
 import com.Calendrify.Calendrify.Healpers.Handlers.ResponseHandler;
 import com.Calendrify.Calendrify.Models.Event;
+import com.Calendrify.Calendrify.Models.User;
 import com.Calendrify.Calendrify.Repository.EventRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +21,7 @@ public class EventService {
 
     public ResponseEntity<ResponseHandler> getAllEvents(String eventID, String eventCatID, String online, String hostID) {
         try {
-            List<Event> list= eventRepo.findAll();
+            List<Event> list = eventRepo.findAll();
             if (!list.isEmpty()) {
                 if (eventID != null) {
                     list = list.stream()
@@ -63,32 +65,46 @@ public class EventService {
         }
     }
 
-    public ResponseEntity<ResponseHandler> updateEvent(Event ev) {
+    public ResponseEntity<ResponseHandler> updateEvent(int eventID, Event event) {
         try {
-            if(eventRepo.findById(ev.getId()).isPresent()) {
-                eventRepo.save(ev);
-                return (ResponseEntity<ResponseHandler>) ResponseHandler.GenerateResponse("Event update successfully", true);
-            }else{
-                return (ResponseEntity<ResponseHandler>) ResponseHandler.GenerateResponse("Event not exist", false);
-            }
+            Event updateUser = null;
+            updateUser = eventRepo.findById(eventID).
+                    orElseThrow(() -> new ResourceNotFoundException("Event not Found"));
+
+            updateUser.setTitle(event.getTitle() == null ? updateUser.getTitle() : event.getTitle());
+            updateUser.setDescription(event.getDescription() == null ? updateUser.getDescription() : event.getDescription());
+            updateUser.setStartDateTime(event.getStartDateTime() == null ? updateUser.getStartDateTime() : event.getStartDateTime());
+            updateUser.setEndDateTime(event.getEndDateTime() == null ? updateUser.getEndDateTime() : event.getEndDateTime());
+            updateUser.setOnline(event.getOnline() == null ? updateUser.getOnline() : event.getOnline());
+            updateUser.setUrl(event.getUrl() == null ? updateUser.getUrl() : event.getUrl());
+            updateUser.setVenueName(event.getVenueName() == null ? updateUser.getVenueName() : event.getVenueName());
+            updateUser.setAvailability(event.getAvailability() == null ? updateUser.getAvailability() : event.getAvailability());
+            updateUser.setHostID(event.getHostID() == null ? updateUser.getHostID() : event.getHostID());
+            updateUser.setGroupid(event.getGroupid() == null ? updateUser.getGroupid() : event.getGroupid());
+            updateUser.setEventCatID(event.getEventCatID() == null ? updateUser.getEventCatID() : event.getEventCatID());
+            updateUser.setGroupid(event.getGroupid() == null ? updateUser.getGroupid() : event.getGroupid());
+            updateUser.setCreatedAt(event.getCreatedAt() == null ? updateUser.getCreatedAt() : event.getCreatedAt());
+            updateUser.setIsDeleted(event.getIsDeleted() == null ? updateUser.getIsDeleted() : event.getIsDeleted());
+            updateUser.setLastModify(event.getLastModify() == null ? updateUser.getLastModify() : event.getLastModify());
+            eventRepo.save(updateUser);
+            return (ResponseEntity<ResponseHandler>) ResponseHandler.GenerateResponse("Event Updated!!", true, updateUser);
         } catch (Exception e) {
-            return (ResponseEntity<ResponseHandler>) ResponseHandler.GenerateResponse(e.getMessage(), false);
+            return (ResponseEntity<ResponseHandler>) ResponseHandler.GenerateResponse("Event not Updated!!" + e.getMessage(), true);
         }
     }
 
     public ResponseEntity<ResponseHandler> deleteEvent(int id) {
         try {
-            if(eventRepo.findById(id).isPresent()) {
+            if (eventRepo.findById(id).isPresent()) {
                 eventRepo.deleteById(id);
                 return (ResponseEntity<ResponseHandler>) ResponseHandler.GenerateResponse("Event Deleted successfully", true);
-            }else{
+            } else {
                 return (ResponseEntity<ResponseHandler>) ResponseHandler.GenerateResponse("Event not exist", false);
             }
         } catch (Exception e) {
             return (ResponseEntity<ResponseHandler>) ResponseHandler.GenerateResponse(e.getMessage(), false);
         }
     }
-
 
 
     public ResponseEntity<ResponseHandler> getEventByDate(String startDate, String endDate) {
@@ -98,7 +114,7 @@ public class EventService {
             if (!list.isEmpty()) {
                 return (ResponseEntity<ResponseHandler>) ResponseHandler.GenerateResponse("Success", true, list);
             } else {
-                return (ResponseEntity<ResponseHandler>) ResponseHandler.GenerateResponse("Success", false , null);
+                return (ResponseEntity<ResponseHandler>) ResponseHandler.GenerateResponse("Success", false, null);
             }
 
         } catch (Exception e) {
