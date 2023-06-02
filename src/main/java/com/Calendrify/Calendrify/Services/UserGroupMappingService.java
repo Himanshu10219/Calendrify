@@ -18,9 +18,10 @@ public class UserGroupMappingService {
     @Autowired
     UserGroupMappingRepo userGroupMappingRepo;
 
-    public ResponseEntity<ResponseHandler> getAllUsersFromGroup(String mapID, String groupID, String userID) {
+    public List<Usergroupmapping> getAllUserGroupMapping(String mapID, String groupID, String userID) {
+        List<Usergroupmapping> list = new ArrayList<>();
         try {
-            List<Usergroupmapping> list = userGroupMappingRepo.findAll();
+            list = userGroupMappingRepo.findAll();
             if (!list.isEmpty()) {
                 if (mapID != null) {
                     list = list.stream()
@@ -37,39 +38,52 @@ public class UserGroupMappingService {
                             .filter(item -> item.getUserID().getId().equals(Integer.parseInt(userID)))
                             .collect(Collectors.toList());
                 }
-                return (ResponseEntity<ResponseHandler>) ResponseHandler.GenerateResponse("Success", true, list);
+                return list;
             } else {
-                return (ResponseEntity<ResponseHandler>) ResponseHandler.GenerateResponse("Event not exist", false, null);
+                return list;
             }
         } catch (Exception e) {
-            System.out.println(e.getMessage());
-            return (ResponseEntity<ResponseHandler>) ResponseHandler.GenerateResponse(e.getMessage(), false, null);
+            return list;
+        }
+    }
+
+    public ResponseEntity<ResponseHandler> deleteMap(int id) {
+        try {
+            if (userGroupMappingRepo.findById(id).isPresent()) {
+                userGroupMappingRepo.deleteById(id);
+                return (ResponseEntity<ResponseHandler>) ResponseHandler.GenerateResponse("Map Deleted successfully",
+                        true);
+            } else {
+                return (ResponseEntity<ResponseHandler>) ResponseHandler.GenerateResponse("Map not exist", false);
+            }
+        } catch (Exception e) {
+            return (ResponseEntity<ResponseHandler>) ResponseHandler.GenerateResponse(e.getMessage(), false);
         }
     }
 
     @Transactional
     public ResponseEntity<ResponseHandler> saveUsersToGroup(List<Usergroupmapping> usergroupmappingList) {
-        int size=usergroupmappingList.size();
-        int counter=0;
-        try{
-        List<Usergroupmapping> temp=new ArrayList<>();
+        int size = usergroupmappingList.size();
+        int counter = 0;
+        try {
+            List<Usergroupmapping> temp = new ArrayList<>();
 
-        for(Usergroupmapping userGroupMap:usergroupmappingList){
-            temp.add(userGroupMap);
+            for (Usergroupmapping userGroupMap : usergroupmappingList) {
+                temp.add(userGroupMap);
 
-            if((counter+1)%1000==0 ||(counter+1)==size){
-                userGroupMappingRepo.saveAll(temp);
-                temp.clear();
+                if ((counter + 1) % 1000 == 0 || (counter + 1) == size) {
+                    userGroupMappingRepo.saveAll(temp);
+                    temp.clear();
+                }
+                counter++;
             }
-            counter++;
-        }
             return (ResponseEntity<ResponseHandler>) ResponseHandler.GenerateResponse("Member added!!", true);
 
-        }catch (Exception e){
-            return (ResponseEntity<ResponseHandler>) ResponseHandler.GenerateResponse("Member not added!!" + e.getMessage(), true);
+        } catch (Exception e) {
+            return (ResponseEntity<ResponseHandler>) ResponseHandler
+                    .GenerateResponse("Member not added!!" + e.getMessage(), true);
 
         }
-
 
     }
 }

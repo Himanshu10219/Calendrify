@@ -1,9 +1,8 @@
 package com.Calendrify.Calendrify.Services;
 
 import com.Calendrify.Calendrify.Healpers.Handlers.ResponseHandler;
-import com.Calendrify.Calendrify.Models.Event;
-import com.Calendrify.Calendrify.Models.User;
-import com.Calendrify.Calendrify.Models.Usergroup;
+import com.Calendrify.Calendrify.Models.*;
+import com.Calendrify.Calendrify.Repository.UserGroupMappingRepo;
 import com.Calendrify.Calendrify.Repository.UserGroupRepo;
 import com.Calendrify.Calendrify.Repository.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -20,6 +20,9 @@ public class UserGroupService {
 
     @Autowired
     UserGroupRepo userGroupRepo;
+
+    @Autowired
+    UserGroupMappingService userGroupMappingService;
 
     @Autowired
     UserRepo userRepo;
@@ -36,13 +39,11 @@ public class UserGroupService {
             }
             return (ResponseEntity<ResponseHandler>) ResponseHandler.GenerateResponse("Success", true, list);
         } catch (Exception e) {
-            System.out.println("UserGroup By Id:" + e.getMessage());
+            return (ResponseEntity<ResponseHandler>) ResponseHandler.GenerateResponse("Something went wrong!", false, null);
         }
-        return (ResponseEntity<ResponseHandler>) ResponseHandler.GenerateResponse("Something went wrong!", false, null);
     }
 
     public ResponseEntity<ResponseHandler> createGroup(int userId, Usergroup usergroup) {
-
         try {
             if (userRepo.findById(userId).isPresent()) {
                 User isExistingUser = userRepo.findById(userId).get();
@@ -53,9 +54,23 @@ public class UserGroupService {
                 return (ResponseEntity<ResponseHandler>) ResponseHandler.GenerateResponse("User not exist with " + userId, false);
             }
         } catch (Exception e) {
-            System.out.println("Save Group " + e.getMessage());
+            return (ResponseEntity<ResponseHandler>) ResponseHandler.GenerateResponse("Something went Wrong! ", false);
         }
-        return (ResponseEntity<ResponseHandler>) ResponseHandler.GenerateResponse("Something went Wrong! ", false);
+    }
 
+    public ResponseEntity<ResponseHandler> getGroupWithUsers() {
+        try {
+            List<GroupWithUsers> groupWithUsersList=new ArrayList<>();
+            List<Usergroup> list = userGroupRepo.findAll();
+            if (!list.isEmpty()) {
+                for(Usergroup usergroup:list){
+                    List<Usergroupmapping> usergroupmappingList= userGroupMappingService.getAllUserGroupMapping(null,usergroup.getId().toString(),null);
+                    groupWithUsersList.add(new GroupWithUsers(usergroup,usergroupmappingList));
+                }
+            }
+            return (ResponseEntity<ResponseHandler>) ResponseHandler.GenerateResponse("Success", true, groupWithUsersList);
+        } catch (Exception e) {
+            return (ResponseEntity<ResponseHandler>) ResponseHandler.GenerateResponse("Something went wrong!", false, null);
+        }
     }
 }

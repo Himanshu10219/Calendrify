@@ -19,15 +19,35 @@ public class UserGroupMappingController {
 
     @GetMapping("userGroupMapping/get")
     public ResponseEntity<ResponseHandler> getGroupMapping(@RequestParam(required = false) String mapID,
-                                                           @RequestParam(required = false) String groupID,
-                                                           @RequestParam(required = false) String userID
-    ) {
+            @RequestParam(required = false) String groupID,
+            @RequestParam(required = false) String userID) {
         return userGroupMappingService.getAllUsersFromGroup(mapID, groupID, userID);
     }
 
     @PostMapping("userGroupMapping/add")
-    public ResponseEntity<ResponseHandler> saveUserToGroup(@RequestBody List<Usergroupmapping> usergroupmappingList){
+    public ResponseEntity<ResponseHandler> saveUserToGroup(@RequestBody List<Usergroupmapping> usergroupmappingList) {
         return userGroupMappingService.saveUsersToGroup(usergroupmappingList);
     }
 
+    @DeleteMapping("usergroupmapping/delete/{mapID}")
+    public ResponseEntity<ResponseHandler> deleteMap(@PathVariable String mapID) {
+        return userGroupMappingService.deleteMap(Integer.parseInt(mapID));
+    }
+
+    //
+    // @GetMapping("usergroupmapping/get")
+    // public ResponseEntity<ResponseHandler> getGroupMapping(@RequestParam(required
+    // = false) String mapID,
+    // @RequestParam(required = false) String groupID,
+    // @RequestParam(required = false) String userID
+    // ) {
+    // return userGroupMappingService.getAllUserGroupMapping(mapID, groupID,
+    // userID);
+    // }
+
+    // @PostMapping("/group/{userId}")
+    // public ResponseEntity<ResponseHandler> createGroup(@PathVariable String
+    // userId, @RequestBody Usergroup usergroup) {
+    // return userGroupService.createGroup(Integer.parseInt(userId), usergroup);
+    // }
 }
