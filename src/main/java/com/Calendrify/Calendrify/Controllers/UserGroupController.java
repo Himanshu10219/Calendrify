@@ -24,7 +24,7 @@ public class UserGroupController {
         return userGroupService.getGroupWithUsers();
     }
 
-    @PostMapping("/group/{userId}")
+    @PostMapping("userGroup/add/{userId}")
     public ResponseEntity<ResponseHandler> createGroup(@PathVariable String userId, @RequestBody Usergroup usergroup) {
         return userGroupService.createGroup(Integer.parseInt(userId), usergroup);
     }

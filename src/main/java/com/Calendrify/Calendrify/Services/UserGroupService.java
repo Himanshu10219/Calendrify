@@ -46,10 +46,10 @@ public class UserGroupService {
     public ResponseEntity<ResponseHandler> createGroup(int userId, Usergroup usergroup) {
         try {
             if (userRepo.findById(userId).isPresent()) {
-                User isExistingUser = userRepo.findById(userId).get();
-                usergroup.setCreateBy(isExistingUser);
-                userGroupRepo.save(usergroup);
-                return (ResponseEntity<ResponseHandler>) ResponseHandler.GenerateResponse("Group Created!", true, usergroup);
+                User user = userRepo.findById(userId).get();
+                usergroup.setCreateBy(user);
+                Usergroup savedUsergroup = userGroupRepo.save(usergroup);
+                return (ResponseEntity<ResponseHandler>) ResponseHandler.GenerateResponse("Group Created!", true, savedUsergroup);
             } else {
                 return (ResponseEntity<ResponseHandler>) ResponseHandler.GenerateResponse("User not exist with " + userId, false);
             }
