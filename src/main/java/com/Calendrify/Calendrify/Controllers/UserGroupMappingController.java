@@ -22,7 +22,7 @@ public class UserGroupMappingController {
         return userGroupMappingService.saveUsersToGroup(usergroupmappingList);
     }
 
-    @DeleteMapping("usergroupmapping/delete/{mapID}")
+    @DeleteMapping("userGroupMapping/delete/{mapID}")
     public ResponseEntity<ResponseHandler> deleteMap(@PathVariable String mapID) {
         return userGroupMappingService.deleteMap(Integer.parseInt(mapID));
     }

@@ -25,5 +25,15 @@ public class EventCategoryController {
         return eventCategoryService.addEventCategory(eventcategory);
     }
 
+    @DeleteMapping("eventCategory/delete/{eventCatID}")
+    public ResponseEntity<ResponseHandler> deleteEventCategory(@PathVariable String eventCatID) {
+        return eventCategoryService.deleteEventCategory(Integer.parseInt(eventCatID));
+    }
+
+    @PutMapping("eventCategory/update/{eventCatID}")
+    public ResponseEntity<ResponseHandler> updateEventCategory(@PathVariable String eventCatID,@RequestBody Eventcategory eventcategory) {
+        return eventCategoryService.updateEventCategory(Integer.parseInt(eventCatID),eventcategory);
+    }
+
 }
 

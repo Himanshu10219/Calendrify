@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 public class Event {
     @Id
     @Column(name = "eventID")
-    @GeneratedValue(strategy =GenerationType.AUTO)
+    @GeneratedValue(strategy =GenerationType.IDENTITY)
     private Integer id;
 
     @Column(name = "title", length = 50)
