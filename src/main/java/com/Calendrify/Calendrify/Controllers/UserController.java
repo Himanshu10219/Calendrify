@@ -36,6 +36,7 @@ public class UserController {
 
     @RequestMapping(value = "user/update/{userId}",method = RequestMethod.PUT)
     public ResponseEntity<ResponseHandler> updateUserById(@PathVariable String userId, @RequestBody User user){
+        System.out.println("=====userId=="+userId);
         return userService.updateUserById(Integer.parseInt(userId),user);
     }
 }

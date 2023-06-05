@@ -7,6 +7,7 @@ import okhttp3.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -58,8 +59,11 @@ public class OneSignalService {
             OkHttpClient client = new OkHttpClient();
             Map<String, Object> jsonMap = new HashMap<>();
             jsonMap.put("app_id", ONE_SIGNAL_APP_ID);
-
-            List<String> includePlayerIds = List.of("3dac3f6f-a548-46c6-91c6-14d8e2fce664");
+            List<String> includePlayerIds = new ArrayList<>();
+            for(String token:notificationRequest.getDeviceTokens()){
+                System.out.println("Token==="+token);
+                includePlayerIds.add(token.trim());
+            }
             jsonMap.put("include_player_ids", includePlayerIds);
 
             Map<String, String> headings = new HashMap<>();

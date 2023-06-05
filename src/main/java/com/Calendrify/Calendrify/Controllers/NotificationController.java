@@ -20,7 +20,7 @@ public class NotificationController {
         return oneSignalService.SendNotificationToALl(request);
     }
 
-    @PostMapping("/toGroup")
+    @PostMapping("notification/toGroup")
     public ResponseEntity<ResponseHandler> toGroup(@RequestBody NotificationRequest request) {
         return oneSignalService.SendNotificationToGroup(request);
     }

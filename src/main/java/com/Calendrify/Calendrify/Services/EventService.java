@@ -2,15 +2,20 @@ package com.Calendrify.Calendrify.Services;
 
 import com.Calendrify.Calendrify.Healpers.Exceptions.ResourceNotFoundException;
 import com.Calendrify.Calendrify.Healpers.Handlers.ResponseHandler;
+import com.Calendrify.Calendrify.Models.BodyResponse.NotificationRequest;
 import com.Calendrify.Calendrify.Models.Event;
+import com.Calendrify.Calendrify.Models.GroupWithUsers;
 import com.Calendrify.Calendrify.Models.User;
+import com.Calendrify.Calendrify.Models.Usergroupmapping;
 import com.Calendrify.Calendrify.Repository.EventRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -18,6 +23,11 @@ import java.util.stream.Collectors;
 public class EventService {
     @Autowired
     EventRepo eventRepo;
+    @Autowired
+    OneSignalService oneSignalService;
+
+    @Autowired
+    UserGroupService userGroupService;
 
     public ResponseEntity<ResponseHandler> getAllEvents(String eventID, String eventCatID, String online, String hostID) {
         try {
@@ -58,6 +68,25 @@ public class EventService {
     public ResponseEntity<ResponseHandler> addEvent(Event ev) {
         try {
             eventRepo.save(ev);
+            ResponseEntity<ResponseHandler> response = userGroupService.getGroupWithUsers();
+            Map<String, Object> responseBody = (Map<String, Object>) response.getBody();
+            if (responseBody != null) {
+                List<GroupWithUsers> groupList = (List<GroupWithUsers>) responseBody.get("data");
+                groupList = groupList.stream()
+                        .filter(item -> item.getUserGroup().getId().equals(ev.getGroupid().getId()))
+                        .collect(Collectors.toList());
+                NotificationRequest notificationRequest = new NotificationRequest();
+                notificationRequest.setContain(ev.getTitle());
+                notificationRequest.setContain(ev.getDescription());
+                ArrayList<String> userDeviceTokens = new ArrayList<>();
+                for (Usergroupmapping usergroupmapping : groupList.get(0).getUserGroupMappingList()) {
+                    userDeviceTokens.add(usergroupmapping.getUserID().getDeviceToken());
+                }
+                notificationRequest.setDeviceTokens(userDeviceTokens);
+                ResponseEntity<ResponseHandler> notificationResponse = oneSignalService.SendNotificationToGroup(notificationRequest);
+                Map<String, Object> notificationResponseBody = (Map<String, Object>) notificationResponse.getBody();
+                System.out.println("Notification Response==" + notificationResponseBody.get("status"));
+            }
             return (ResponseEntity<ResponseHandler>) ResponseHandler.GenerateResponse("Event Added successfully", true);
         } catch (Exception e) {
             System.out.println(e.getMessage());

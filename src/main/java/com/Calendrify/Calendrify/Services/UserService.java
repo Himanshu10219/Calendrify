@@ -105,6 +105,7 @@ public class UserService {
             updateUser.setEmail(user.getEmail()==null?updateUser.getEmail(): user.getEmail());
             updateUser.setDeviceToken(user.getDeviceToken()==null?updateUser.getDeviceToken(): user.getDeviceToken());
             updateUser.setDob(user.getDob()==null?updateUser.getDob(): user.getDob());
+            updateUser.setToken(user.getToken()==null?updateUser.getToken(): user.getToken());
             updateUser.setCountry(user.getCountry()==null?updateUser.getCountry(): user.getCountry());
             updateUser.setCity(user.getCity()==null?updateUser.getCity(): user.getCity());
             updateUser.setState(user.getState()==null?updateUser.getState(): user.getState());
