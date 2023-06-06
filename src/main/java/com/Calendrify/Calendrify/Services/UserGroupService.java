@@ -2,7 +2,6 @@ package com.Calendrify.Calendrify.Services;
 
 import com.Calendrify.Calendrify.Healpers.Handlers.ResponseHandler;
 import com.Calendrify.Calendrify.Models.*;
-import com.Calendrify.Calendrify.Repository.UserGroupMappingRepo;
 import com.Calendrify.Calendrify.Repository.UserGroupRepo;
 import com.Calendrify.Calendrify.Repository.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,10 +26,34 @@ public class UserGroupService {
     @Autowired
     UserRepo userRepo;
 
-    public ResponseEntity<ResponseHandler> getGroupById(String groupId) {
+    public ResponseEntity<ResponseHandler> getGroupById(String groupId, String userID) {
         try {
             List<Usergroup> list = userGroupRepo.findAll();
             if (!list.isEmpty()) {
+                if (userID != null) {
+                    List<Usergroup> groupList=new ArrayList<>();
+                    List<Usergroup> usergroupList = list.stream()
+                            .filter(item -> item.getCreateBy().getId() ==Integer.parseInt(userID))
+                            .toList();
+                    List<Usergroup> otherList = list.stream()
+                            .filter(item -> item.getCreateBy().getId() !=Integer.parseInt(userID))
+                            .toList();
+                    for (Usergroup usergroup:otherList){
+                        System.out.println("userGroupMappingService =="+usergroup.getId().toString());
+                        List<Usergroupmapping> usergroupmappingList= userGroupMappingService.getAllUserGroupMapping(null,usergroup.getId().toString(),null);
+                        List<Usergroupmapping> filteredList = usergroupmappingList.stream()
+                                .filter(mapping -> mapping.getUserID().getId() == Integer.parseInt(userID))
+                                .toList();
+                        for (Usergroupmapping usergroupmapping:filteredList){
+                            System.out.println("usergroupmapping =="+usergroupmapping.getId().toString());
+                        }
+                        if(filteredList.size()>0){
+                            groupList.add(usergroup);
+                        }
+                    }
+                    groupList.addAll(usergroupList);
+                    list=groupList;
+                }
                 if (groupId != null) {
                     list = list.stream()
                             .filter(item -> item.getId().equals(Integer.parseInt(groupId)))

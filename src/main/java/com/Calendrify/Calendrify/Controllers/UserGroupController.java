@@ -15,8 +15,9 @@ public class UserGroupController {
     UserGroupService userGroupService;
 
     @GetMapping("userGroup/get")
-    public ResponseEntity<ResponseHandler> getGroupById(@RequestParam(required = false) String groupId){
-        return userGroupService.getGroupById(groupId);
+    public ResponseEntity<ResponseHandler> getGroupById(@RequestParam(required = false) String groupId,
+                                                        @RequestParam(required = false) String userID){
+        return userGroupService.getGroupById(groupId,userID);
     }
 
     @GetMapping("userGroup/getGroupWithUsers")

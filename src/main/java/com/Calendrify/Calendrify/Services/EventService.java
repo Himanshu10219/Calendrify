@@ -2,6 +2,7 @@ package com.Calendrify.Calendrify.Services;
 
 import com.Calendrify.Calendrify.Healpers.Exceptions.ResourceNotFoundException;
 import com.Calendrify.Calendrify.Healpers.Handlers.ResponseHandler;
+import com.Calendrify.Calendrify.Models.BodyResponse.MailBody;
 import com.Calendrify.Calendrify.Models.BodyResponse.NotificationRequest;
 import com.Calendrify.Calendrify.Models.Event;
 import com.Calendrify.Calendrify.Models.GroupWithUsers;
@@ -13,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -21,18 +23,46 @@ import java.util.stream.Collectors;
 @Service
 @SuppressWarnings("unchecked")
 public class EventService {
+    DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+    DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("hh:mm a");
     @Autowired
     EventRepo eventRepo;
     @Autowired
     OneSignalService oneSignalService;
 
     @Autowired
+    UserGroupMappingService userGroupMappingService;
+
+    @Autowired
     UserGroupService userGroupService;
+
+    @Autowired
+    EmailSenderService emailSenderService;
 
     public ResponseEntity<ResponseHandler> getAllEvents(String eventID, String eventCatID, String online, String hostID) {
         try {
             List<Event> list = eventRepo.findAll();
             if (!list.isEmpty()) {
+                if (hostID != null) {
+                    List<Event> userEventList=new ArrayList<>();
+                    List<Event> hostIDList = list.stream()
+                            .filter(item -> item.getHostID().getId() ==Integer.parseInt(hostID))
+                            .toList();
+                    List<Event> otherList = list.stream()
+                            .filter(item -> item.getHostID().getId() !=Integer.parseInt(hostID))
+                            .toList();
+                    for (Event event:otherList){
+                        List<Usergroupmapping> usergroupmappingList= userGroupMappingService.getAllUserGroupMapping(null,event.getGroupid().getId().toString(),null);
+                        List<Usergroupmapping> filteredList = usergroupmappingList.stream()
+                                .filter(mapping -> mapping.getUserID().getId() == Integer.parseInt(hostID))
+                                .toList();
+                        if(filteredList.size()>0){
+                                userEventList.add(event);
+                        }
+                    }
+                    userEventList.addAll(hostIDList);
+                    list=userEventList;
+                }
                 if (eventID != null) {
                     list = list.stream()
                             .filter(item -> item.getId().equals(Integer.parseInt(eventID)))
@@ -50,11 +80,7 @@ public class EventService {
                             .filter(item -> item.getOnline().equals(Boolean.parseBoolean(online)))
                             .collect(Collectors.toList());
                 }
-                if (hostID != null) {
-                    list = list.stream()
-                            .filter(item -> item.getHostID().getId().equals(Integer.parseInt(hostID)))
-                            .collect(Collectors.toList());
-                }
+
                 return (ResponseEntity<ResponseHandler>) ResponseHandler.GenerateResponse("Success", true, list);
             } else {
                 return (ResponseEntity<ResponseHandler>) ResponseHandler.GenerateResponse("Event not exist", false, null);
@@ -79,13 +105,21 @@ public class EventService {
                 notificationRequest.setContain(ev.getTitle());
                 notificationRequest.setContain(ev.getDescription());
                 ArrayList<String> userDeviceTokens = new ArrayList<>();
+                 List<String> userEmailsList=new ArrayList<>();
                 for (Usergroupmapping usergroupmapping : groupList.get(0).getUserGroupMappingList()) {
                     userDeviceTokens.add(usergroupmapping.getUserID().getDeviceToken());
+                    userEmailsList.add(usergroupmapping.getUserID().getEmail());
                 }
+                MailBody mailBody=new MailBody(userEmailsList,
+                        ev.getTitle(),
+                        ev.getDescription(),
+                        ev.getStartDateTime().format(dateFormatter),
+                        ev.getStartDateTime().format(timeFormatter) +" to " +ev.getEndDateTime().format(timeFormatter),
+                        ev.getVenueName()
+                        );
                 notificationRequest.setDeviceTokens(userDeviceTokens);
-                ResponseEntity<ResponseHandler> notificationResponse = oneSignalService.SendNotificationToGroup(notificationRequest);
-                Map<String, Object> notificationResponseBody = (Map<String, Object>) notificationResponse.getBody();
-                System.out.println("Notification Response==" + notificationResponseBody.get("status"));
+                oneSignalService.SendNotificationToGroup(notificationRequest);
+                emailSenderService.sendSimpleEmail(mailBody);
             }
             return (ResponseEntity<ResponseHandler>) ResponseHandler.GenerateResponse("Event Added successfully", true);
         } catch (Exception e) {
