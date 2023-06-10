@@ -94,13 +94,10 @@ public class EventService {
     public ResponseEntity<ResponseHandler> addEvent(Event ev) {
         try {
             eventRepo.save(ev);
-            ResponseEntity<ResponseHandler> response = userGroupService.getGroupWithUsers();
+            ResponseEntity<ResponseHandler> response = userGroupService.getGroupWithUsers(String.valueOf(ev.getHostID().getId()));
             Map<String, Object> responseBody = (Map<String, Object>) response.getBody();
             if (responseBody != null) {
                 List<GroupWithUsers> groupList = (List<GroupWithUsers>) responseBody.get("data");
-                groupList = groupList.stream()
-                        .filter(item -> item.getUserGroup().getId().equals(ev.getGroupid().getId()))
-                        .collect(Collectors.toList());
                 NotificationRequest notificationRequest = new NotificationRequest();
                 notificationRequest.setContain(ev.getTitle());
                 notificationRequest.setContain(ev.getDescription());

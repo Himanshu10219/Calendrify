@@ -1,6 +1,7 @@
 package com.Calendrify.Calendrify.Models;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.Cascade;
 
 import java.time.LocalDate;
 
@@ -17,6 +18,19 @@ public class Eventcategory {
 
     @Column(name = "createdAt")
     private LocalDate createdAt;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @Cascade(org.hibernate.annotations.CascadeType.MERGE)
+    @JoinColumn(name = "createdby")
+    private User createdBy;
+
+    public User getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(User createdBy) {
+        this.createdBy = createdBy;
+    }
 
     public Integer getId() {
         return id;

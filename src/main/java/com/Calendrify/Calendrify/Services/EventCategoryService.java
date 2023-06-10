@@ -3,7 +3,6 @@ package com.Calendrify.Calendrify.Services;
 import com.Calendrify.Calendrify.Healpers.Exceptions.ResourceNotFoundException;
 import com.Calendrify.Calendrify.Healpers.Handlers.ResponseHandler;
 import com.Calendrify.Calendrify.Models.Eventcategory;
-import com.Calendrify.Calendrify.Models.User;
 import com.Calendrify.Calendrify.Repository.EventCategoryRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -19,12 +18,18 @@ public class EventCategoryService {
     @Autowired
     EventCategoryRepo eventCategoryRepo;
 
-    public ResponseEntity<ResponseHandler> getAllEventsCategory(String eventCatID) {
+    public ResponseEntity<ResponseHandler> getAllEventsCategory(String eventCatID, String userID) {
         try {
             List<Eventcategory> list = eventCategoryRepo.findAll();
-            System.out.println("getAllEventsCategory=" + list);
             if (!list.isEmpty()) {
-
+                if (userID != null) {
+                    list = list.stream()
+                            .filter(item ->
+                                    item.getCreatedBy().getId()
+                                            .equals(Integer.parseInt(userID))||item.getCreatedBy().getId()
+                                            .equals(6))
+                            .collect(Collectors.toList());
+                }
                 if (eventCatID != null) {
                     list = list.stream()
                             .filter(item ->

@@ -16,8 +16,9 @@ public class EventCategoryController {
     @Autowired
     EventCategoryService eventCategoryService;
     @GetMapping("eventCategory/get")
-    public ResponseEntity<ResponseHandler> getAllEventCategory(@RequestParam(required = false) String eventCatID){
-        return eventCategoryService.getAllEventsCategory(eventCatID);
+    public ResponseEntity<ResponseHandler> getAllEventCategory(@RequestParam(required = false) String eventCatID,@RequestParam(required = false) String userID){
+
+        return eventCategoryService.getAllEventsCategory(eventCatID,userID);
     }
 
     @PostMapping("eventCategory/add")

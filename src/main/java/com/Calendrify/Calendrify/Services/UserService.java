@@ -101,8 +101,7 @@ public class UserService {
             User updateUser = null;
             updateUser = userRepo.findById(id).
                     orElseThrow(() -> new ResourceNotFoundException("User not Found"));
-
-            updateUser.setEmail(user.getEmail()==null?updateUser.getEmail(): user.getEmail());
+            updateUser.setEmail(user.getEmail()==null && user.getEmail().isEmpty() ?updateUser.getEmail(): user.getEmail());
             updateUser.setDeviceToken(user.getDeviceToken()==null?updateUser.getDeviceToken(): user.getDeviceToken());
             updateUser.setDob(user.getDob()==null?updateUser.getDob(): user.getDob());
             updateUser.setToken(user.getToken()==null?updateUser.getToken(): user.getToken());

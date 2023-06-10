@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -81,14 +82,18 @@ public class UserGroupService {
         }
     }
 
-    public ResponseEntity<ResponseHandler> getGroupWithUsers() {
+    public ResponseEntity<ResponseHandler> getGroupWithUsers(String userID) {
         try {
             List<GroupWithUsers> groupWithUsersList=new ArrayList<>();
-            List<Usergroup> list = userGroupRepo.findAll();
-            if (!list.isEmpty()) {
-                for(Usergroup usergroup:list){
-                    List<Usergroupmapping> usergroupmappingList= userGroupMappingService.getAllUserGroupMapping(null,usergroup.getId().toString(),null);
-                    groupWithUsersList.add(new GroupWithUsers(usergroup,usergroupmappingList));
+            ResponseEntity<ResponseHandler> response = getGroupById(null,userID);
+            Map<String, Object> responseBody = (Map<String, Object>) response.getBody();
+            if (responseBody != null) {
+                List<Usergroup> list = (List<Usergroup>) responseBody.get("data");
+                if (!list.isEmpty()) {
+                    for (Usergroup usergroup : list) {
+                        List<Usergroupmapping> usergroupmappingList = userGroupMappingService.getAllUserGroupMapping(null, usergroup.getId().toString(), null);
+                        groupWithUsersList.add(new GroupWithUsers(usergroup, usergroupmappingList));
+                    }
                 }
             }
             return (ResponseEntity<ResponseHandler>) ResponseHandler.GenerateResponse("Success", true, groupWithUsersList);
