@@ -22,7 +22,9 @@ public class EventCategoryController {
     }
 
     @PostMapping("eventCategory/add")
-    public ResponseEntity<ResponseHandler> addEventCategory(@RequestBody Eventcategory eventcategory) {
+    public ResponseEntity<ResponseHandler> addEventCategory(
+            @RequestBody Eventcategory eventcategory)
+    {
         return eventCategoryService.addEventCategory(eventcategory);
     }
 
@@ -32,7 +34,9 @@ public class EventCategoryController {
     }
 
     @PutMapping("eventCategory/update/{eventCatID}")
-    public ResponseEntity<ResponseHandler> updateEventCategory(@PathVariable String eventCatID,@RequestBody Eventcategory eventcategory) {
+    public ResponseEntity<ResponseHandler> updateEventCategory(@PathVariable String eventCatID,
+                                                               @RequestBody Eventcategory eventcategory)
+    {
         return eventCategoryService.updateEventCategory(Integer.parseInt(eventCatID),eventcategory);
     }
 

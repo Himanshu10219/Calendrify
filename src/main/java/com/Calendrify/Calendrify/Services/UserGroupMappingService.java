@@ -67,10 +67,8 @@ public class UserGroupMappingService {
         int counter = 0;
         try {
             List<Usergroupmapping> temp = new ArrayList<>();
-
             for (Usergroupmapping userGroupMap : usergroupmappingList) {
                 temp.add(userGroupMap);
-
                 if ((counter + 1) % 1000 == 0 || (counter + 1) == size) {
                     userGroupMappingRepo.saveAll(temp);
                     temp.clear();
@@ -78,12 +76,30 @@ public class UserGroupMappingService {
                 counter++;
             }
             return (ResponseEntity<ResponseHandler>) ResponseHandler.GenerateResponse("Member added!!", true);
-
         } catch (Exception e) {
             return (ResponseEntity<ResponseHandler>) ResponseHandler
                     .GenerateResponse("Member not added!!" + e.getMessage(), true);
-
         }
+    }
 
+    @Transactional
+    public ResponseEntity<ResponseHandler> deleteUsersToGroup(List<Usergroupmapping> usergroupmappingList) {
+        int size = usergroupmappingList.size();
+        int counter = 0;
+        try {
+            List<Usergroupmapping> temp = new ArrayList<>();
+            for (Usergroupmapping userGroupMap : usergroupmappingList) {
+                temp.add(userGroupMap);
+                if ((counter + 1) % 1000 == 0 || (counter + 1) == size) {
+                    userGroupMappingRepo.deleteAll(temp);
+                    temp.clear();
+                }
+                counter++;
+            }
+            return (ResponseEntity<ResponseHandler>) ResponseHandler.GenerateResponse("Member added!!", true);
+        } catch (Exception e) {
+            return (ResponseEntity<ResponseHandler>) ResponseHandler
+                    .GenerateResponse("Member not added!!" + e.getMessage(), true);
+        }
     }
 }
