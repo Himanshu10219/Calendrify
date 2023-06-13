@@ -50,7 +50,7 @@ public class EventCategoryService {
     public ResponseEntity<ResponseHandler> addEventCategory(Eventcategory ev) {
         try {
             eventCategoryRepo.save(ev);
-            return (ResponseEntity<ResponseHandler>) ResponseHandler.GenerateResponse("Event Category Added successfully", true);
+            return (ResponseEntity<ResponseHandler>) ResponseHandler.GenerateResponse("Event Category Added successfully", true,ev);
         } catch (Exception e) {
             System.out.println(e.getMessage());
             return (ResponseEntity<ResponseHandler>) ResponseHandler.GenerateResponse(e.getMessage(), false);
