@@ -8,13 +8,13 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 public class CorsConfiguration {
     @Bean
-    public WebMvcConfigurer corsConfigurer(){
-        return new WebMvcConfigurer(){
+    public WebMvcConfigurer corsConfigurer() {
+        return new WebMvcConfigurer() {
             @Override
-            public void addCorsMappings(CorsRegistry registry){
+            public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/api/**")
                         .allowedOrigins("http://localhost:4200")
-//                        .allowedOrigins("https://d3psfdhg4pvg.cloudfront.net")
+                        // .allowedOrigins("https://d3psfdhg4pvg.cloudfront.net")
                         .allowedMethods("GET", "POST", "PUT", "DELETE")
                         .allowedHeaders("*")
                         .allowCredentials(true)
