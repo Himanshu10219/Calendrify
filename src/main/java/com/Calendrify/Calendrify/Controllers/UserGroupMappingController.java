@@ -22,6 +22,11 @@ public class UserGroupMappingController {
         return userGroupMappingService.saveUsersToGroup(usergroupmappingList);
     }
 
+    @PostMapping("userGroupMapping/delete")
+    public ResponseEntity<ResponseHandler> deleteUserToGroup(@RequestBody List<Usergroupmapping> usergroupmappingList) {
+        return userGroupMappingService.deleteUsersToGroup(usergroupmappingList);
+    }
+
     @DeleteMapping("userGroupMapping/delete/{mapID}")
     public ResponseEntity<ResponseHandler> deleteMap(@PathVariable String mapID) {
         return userGroupMappingService.deleteMap(Integer.parseInt(mapID));

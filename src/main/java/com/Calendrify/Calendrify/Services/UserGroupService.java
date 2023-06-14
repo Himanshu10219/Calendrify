@@ -1,7 +1,9 @@
 package com.Calendrify.Calendrify.Services;
 
+import com.Calendrify.Calendrify.Healpers.Exceptions.ResourceNotFoundException;
 import com.Calendrify.Calendrify.Healpers.Handlers.ResponseHandler;
 import com.Calendrify.Calendrify.Models.*;
+import com.Calendrify.Calendrify.Repository.EventCategoryRepo;
 import com.Calendrify.Calendrify.Repository.UserGroupRepo;
 import com.Calendrify.Calendrify.Repository.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +28,8 @@ public class UserGroupService {
 
     @Autowired
     UserRepo userRepo;
+    @Autowired
+    private EventCategoryRepo eventCategoryRepo;
 
     public ResponseEntity<ResponseHandler> getGroupById(String groupId, String userID) {
         try {
@@ -99,6 +103,33 @@ public class UserGroupService {
             return (ResponseEntity<ResponseHandler>) ResponseHandler.GenerateResponse("Success", true, groupWithUsersList);
         } catch (Exception e) {
             return (ResponseEntity<ResponseHandler>) ResponseHandler.GenerateResponse("Something went wrong!", false, null);
+        }
+    }
+
+    public ResponseEntity<ResponseHandler> updateEventCategoryById(int id, Usergroup eventCategory) {
+        try {
+            Usergroup updateCategory = null;
+            updateCategory = userGroupRepo.findById(id).
+                    orElseThrow(() -> new ResourceNotFoundException("Event Category not Found"));
+            updateCategory.setName(eventCategory.getName()==null && eventCategory.getName().isEmpty() ?updateCategory.getName(): eventCategory.getName());
+            updateCategory.setDescription(eventCategory.getDescription()==null && eventCategory.getDescription().isEmpty() ?updateCategory.getDescription(): eventCategory.getDescription());
+            userGroupRepo.save(updateCategory);
+            return (ResponseEntity<ResponseHandler>) ResponseHandler.GenerateResponse("Event Category!!", true, updateCategory);
+        } catch (Exception e) {
+            return (ResponseEntity<ResponseHandler>) ResponseHandler.GenerateResponse("Event Category not Updated!!"+e.getMessage(), true);
+        }
+    }
+
+    public ResponseEntity<ResponseHandler> deleteEventCategory(int id) {
+        try {
+            if (userGroupRepo.findById(id).isPresent()) {
+                userGroupRepo.deleteById(id);
+                return (ResponseEntity<ResponseHandler>) ResponseHandler.GenerateResponse("Event Category Deleted successfully", true);
+            } else {
+                return (ResponseEntity<ResponseHandler>) ResponseHandler.GenerateResponse("Event Category not exist", false);
+            }
+        } catch (Exception e) {
+            return (ResponseEntity<ResponseHandler>) ResponseHandler.GenerateResponse(e.getMessage(), false);
         }
     }
 }
