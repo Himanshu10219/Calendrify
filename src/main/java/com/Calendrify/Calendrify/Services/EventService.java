@@ -115,14 +115,22 @@ public class EventService {
                         ev.getVenueName()
                         );
                 notificationRequest.setDeviceTokens(userDeviceTokens);
-                oneSignalService.SendNotificationToGroup(notificationRequest);
-                emailSenderService.sendSimpleEmail(mailBody);
+                sendEventNotification(notificationRequest);
+                sendEventMail(mailBody);
             }
             return (ResponseEntity<ResponseHandler>) ResponseHandler.GenerateResponse("Event Added successfully", true);
         } catch (Exception e) {
             System.out.println(e.getMessage());
             return (ResponseEntity<ResponseHandler>) ResponseHandler.GenerateResponse(e.getMessage(), false);
         }
+    }
+
+    public void sendEventMail(MailBody mailBody){
+        emailSenderService.sendSimpleEmail(mailBody);
+    }
+
+    public void sendEventNotification(NotificationRequest notificationRequest){
+        oneSignalService.SendNotificationToGroup(notificationRequest);
     }
 
     public ResponseEntity<ResponseHandler> updateEvent(int eventID, Event event) {
@@ -152,7 +160,6 @@ public class EventService {
             return (ResponseEntity<ResponseHandler>) ResponseHandler.GenerateResponse("Event not Updated!!" + e.getMessage(), true);
         }
     }
-
     public ResponseEntity<ResponseHandler> deleteEvent(int id) {
         try {
             if (eventRepo.findById(id).isPresent()) {
@@ -165,8 +172,6 @@ public class EventService {
             return (ResponseEntity<ResponseHandler>) ResponseHandler.GenerateResponse(e.getMessage(), false);
         }
     }
-
-
     public ResponseEntity<ResponseHandler> getEventByDate(String startDate, String endDate) {
         try {
             List<Event> list;
