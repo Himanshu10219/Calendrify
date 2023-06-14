@@ -2,13 +2,12 @@ package com.Calendrify.Calendrify.Services;
 
 import com.Calendrify.Calendrify.Healpers.Exceptions.ResourceNotFoundException;
 import com.Calendrify.Calendrify.Healpers.Handlers.ResponseHandler;
+import com.Calendrify.Calendrify.Models.*;
 import com.Calendrify.Calendrify.Models.BodyResponse.MailBody;
 import com.Calendrify.Calendrify.Models.BodyResponse.NotificationRequest;
-import com.Calendrify.Calendrify.Models.Event;
-import com.Calendrify.Calendrify.Models.GroupWithUsers;
-import com.Calendrify.Calendrify.Models.User;
-import com.Calendrify.Calendrify.Models.Usergroupmapping;
+import com.Calendrify.Calendrify.Repository.EventCategoryRepo;
 import com.Calendrify.Calendrify.Repository.EventRepo;
+import com.Calendrify.Calendrify.Repository.UserGroupRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -18,6 +17,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -27,6 +27,9 @@ public class EventService {
     DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("hh:mm a");
     @Autowired
     EventRepo eventRepo;
+
+    @Autowired
+    UserGroupRepo userGroupRepo;
     @Autowired
     OneSignalService oneSignalService;
 
@@ -38,6 +41,8 @@ public class EventService {
 
     @Autowired
     EmailSenderService emailSenderService;
+    @Autowired
+    private EventCategoryRepo eventCategoryRepo;
 
     public ResponseEntity<ResponseHandler> getAllEvents(String eventID, String eventCatID, String online, String hostID) {
         try {
@@ -139,17 +144,24 @@ public class EventService {
             updateUser.setUrl(event.getUrl() == null ? updateUser.getUrl() : event.getUrl());
             updateUser.setVenueName(event.getVenueName() == null ? updateUser.getVenueName() : event.getVenueName());
             updateUser.setAvailability(event.getAvailability() == null ? updateUser.getAvailability() : event.getAvailability());
-            updateUser.setHostID(event.getHostID() == null ? updateUser.getHostID() : event.getHostID());
-            updateUser.setGroupid(event.getGroupid() == null ? updateUser.getGroupid() : event.getGroupid());
-            updateUser.setEventCatID(event.getEventCatID() == null ? updateUser.getEventCatID() : event.getEventCatID());
-            updateUser.setGroupid(event.getGroupid() == null ? updateUser.getGroupid() : event.getGroupid());
+            Usergroup usergroup=new Usergroup();
+            if(userGroupRepo.findById(event.getGroupid().getId()).isPresent()){
+                usergroup= userGroupRepo.findById(event.getGroupid().getId()).get();
+            }
+            updateUser.setGroupid(event.getGroupid() == null ? updateUser.getGroupid() : usergroup);
+
+            Eventcategory eventcategory=new Eventcategory();
+            if(eventCategoryRepo.findById(event.getEventCatID().getId()).isPresent()){
+                eventcategory= eventCategoryRepo.findById(event.getEventCatID().getId()).get();
+            }
+            updateUser.setEventCatID(event.getEventCatID() == null ? updateUser.getEventCatID() : eventcategory);
             updateUser.setCreatedAt(event.getCreatedAt() == null ? updateUser.getCreatedAt() : event.getCreatedAt());
             updateUser.setIsDeleted(event.getIsDeleted() == null ? updateUser.getIsDeleted() : event.getIsDeleted());
             updateUser.setLastModify(event.getLastModify() == null ? updateUser.getLastModify() : event.getLastModify());
             eventRepo.save(updateUser);
             return (ResponseEntity<ResponseHandler>) ResponseHandler.GenerateResponse("Event Updated!!", true, updateUser);
         } catch (Exception e) {
-            return (ResponseEntity<ResponseHandler>) ResponseHandler.GenerateResponse("Event not Updated!!" + e.getMessage(), true);
+            return (ResponseEntity<ResponseHandler>) ResponseHandler.GenerateResponse("Event not Updated!!" + e.getMessage(), false);
         }
     }
 

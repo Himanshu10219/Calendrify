@@ -27,25 +27,25 @@ public class User {
     @Column(name = "mobile", length = 13)
     private String mobile;
 
-    @Column(name = "token", nullable = false)
+    @Column(name = "token")
     private String token;
 
-    @Column(name = "deviceToken", nullable = false)
+    @Column(name = "deviceToken")
     private String deviceToken;
 
-    @Column(name = "profileURL", nullable = false)
+    @Column(name = "profileURL")
     private String profileURL;
 
-    @Column(name = "email", nullable = false)
+    @Column(name = "email")
     private String email;
 
-    @Column(name = "city", nullable = false)
+    @Column(name = "city")
     private String city;
 
-    @Column(name = "state", nullable = false)
+    @Column(name = "state")
     private String state;
 
-    @Column(name = "country", nullable = false)
+    @Column(name = "country")
     private String country;
 
     @Column(name = "createdAt")
