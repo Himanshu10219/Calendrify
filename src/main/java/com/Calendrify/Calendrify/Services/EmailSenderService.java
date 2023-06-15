@@ -36,12 +36,17 @@ public class EmailSenderService {
             MimeMessageHelper helper = new MimeMessageHelper(message, true); // Enable multipart mode for HTML content
 
             Map<String, Object> model = new HashMap<>();
-            model.put("title", mailBody.getTitle());
-            model.put("description", mailBody.getDescription());
             model.put("date", mailBody.getDate());
-            model.put("startendTime", mailBody.getStartEndTime());
-            model.put("location", mailBody.getLocation());
 
+            model.put("title", mailBody.getTitle());
+            model.put("hostBy", mailBody.getHostBy());
+
+            model.put("description", mailBody.getDescription());
+            model.put("url", mailBody.getUrl());
+            model.put("startEndTime", mailBody.getStartEndTime());
+            model.put("groupName", mailBody.getGroupName());
+
+            model.put("location", mailBody.getLocation());
 
             // Set the loading location to src/main/resources/templates
             freemarkerConfig.setClassForTemplateLoading(this.getClass(), "/");
@@ -56,6 +61,7 @@ public class EmailSenderService {
             helper.setSubject(mailBody.getTitle());
 
             mailSender.send(message);
+            System.out.println("mail Sent");
             return (ResponseEntity<ResponseHandler>) ResponseHandler.GenerateResponse("Email Sent", true);
         } catch (MailException e) {
             System.out.println("================ Mail Error ============");
@@ -88,8 +94,8 @@ public class EmailSenderService {
             helper.setTo("calendrify.help@gmail.com");
             helper.setText(text, true); // Use true for HTML content
             helper.setSubject("Complaint");
-
             mailSender.send(message);
+            System.out.println("mail Sent");
             return (ResponseEntity<ResponseHandler>) ResponseHandler.GenerateResponse("Email Sent", true);
         } catch (MailException e) {
             System.out.println("================ Mail Error ============");

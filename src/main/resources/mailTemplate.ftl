@@ -48,6 +48,13 @@ margin-bottom: 10px;
 color: black;
 }
 
+.card-subheader {
+font-size: 10px;
+font-weight: bold;
+margin-bottom: 10px;
+color: black;
+}
+
 .card-content {
 font-size: 16px;
 text-align: left;
@@ -79,21 +86,23 @@ margin-top: 20px;
 
       <div class="card-header">${title}</div>
 
+      <div class="card-subheader">By ${hostBy}</div>
+
       <div class="card-content">
 
-        <p style="color: black;" ><strong>Subject:</strong> ${description}</p>
+        <p style="color: black;" ><strong>Description :-</strong> ${description}</p>
 
-        <p style="color: black;"><strong>Date:</strong> ${date}</p>
+        <p style="color: black;"><strong>Group :-</strong> ${groupName}</p>
 
-        <p style="color: black;"><strong>Time:</strong> ${startendTime}</p>
+        <p style="color: black;"><strong>Date :-</strong> ${date}</p>
 
-        <p style="color: black;"><strong>Location:</strong> ${location}</p>
+        <p style="color: black;"><strong>Time :-</strong> ${startEndTime}</p>
+
+        <p style="color: black;"><strong>URL :-</strong> ${url}</p>
+
+        <p style="color: black;"><strong>Location :-</strong> ${location}</p>
       </div>
     </div>
   </div>
 </body>
-
-
-
-
 </html>
