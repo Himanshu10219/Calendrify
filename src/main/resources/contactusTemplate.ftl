@@ -2,6 +2,7 @@
 <html>
 <head>
 
+
 <style>
 body {
 font-family: Arial, sans-serif;
@@ -48,13 +49,6 @@ margin-bottom: 10px;
 color: black;
 }
 
-.card-subheader {
-font-size: 10px;
-font-weight: bold;
-margin-bottom: 10px;
-color: black;
-}
-
 .card-content {
 font-size: 16px;
 text-align: left;
@@ -72,7 +66,6 @@ font-weight: bold;
 text-align: center;
 margin-top: 20px;
 }
-
 </style>
 </head>
 <body>
@@ -80,27 +73,23 @@ margin-top: 20px;
 
     <img class="logo" src="https://firebasestorage.googleapis.com/v0/b/calendar-c198f.appspot.com/o/Calendar%20-Logo%20(1).png?alt=media&token=2a1d7100-c7b9-44a8-b28f-e7637f797c55&_gl=1*1dpbdmw*_ga*MzUyODYwLjE2ODEwNDE4ODE.*_ga_CW55HF8NVT*MTY4NjA1MzQ3NS44LjEuMTY4NjA1MzU4MC4wLjAuMA.." alt="Logo">
 
-    <h1>Calendrify Invitation</h1>
+    <h1>Calendrify </h1>
 
     <div class="card">
 
-      <div class="card-header">${title}</div>
-
-      <div class="card-subheader">By ${hostBy}</div>
+      <div class="card-header">Complaint</div>
 
       <div class="card-content">
 
-        <p style="color: black;" ><strong>Description :-</strong> ${description}</p>
+        <p style="color: black;" ><strong>Name:</strong> ${name}</p>
 
-        <p style="color: black;"><strong>Group :-</strong> ${groupName}</p>
+        <p style="color: black;"><strong>Email:</strong> ${email}</p>
 
-        <p style="color: black;"><strong>Date :-</strong> ${date}</p>
+		<p style="color: black;"><strong>Contact:</strong> ${contact}</p>
 
-        <p style="color: black;"><strong>Time :-</strong> ${startEndTime}</p>
+        <p style="color: black;"><strong>Date:</strong> ${date}</p>
 
-        <p style="color: black;"><strong>URL :-</strong> ${url}</p>
-
-        <p style="color: black;"><strong>Location :-</strong> ${location}</p>
+        <p style="color: black;"><strong>Message:</strong> ${message}</p>
       </div>
     </div>
   </div>

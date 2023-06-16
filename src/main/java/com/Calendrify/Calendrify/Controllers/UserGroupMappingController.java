@@ -31,5 +31,4 @@ public class UserGroupMappingController {
     public ResponseEntity<ResponseHandler> deleteMap(@PathVariable String mapID) {
         return userGroupMappingService.deleteMap(Integer.parseInt(mapID));
     }
-
 }
