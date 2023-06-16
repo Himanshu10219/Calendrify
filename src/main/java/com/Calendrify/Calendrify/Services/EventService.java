@@ -14,6 +14,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.TextStyle;
 import java.util.*;
@@ -151,8 +153,11 @@ public class EventService {
         }
         List<Usergroupmapping> usergroupmappingList = userGroupMappingService.getAllUserGroupMapping(null, String.valueOf(ev.getGroupid().getId()), null);
         if (!usergroupmappingList.isEmpty()) {
+            LocalDateTime currentDateTime = LocalDateTime.now();
             NotificationRequest notificationRequest = new NotificationRequest();
-            notificationRequest.setContain(ev.getTitle());
+            Duration duration = Duration.between(currentDateTime, ev.getStartDateTime());
+            int minutesDifferenceInt = (int) duration.toMinutes();;
+            notificationRequest.setHeading(ev.getTitle()+"  "+minutesDifferenceInt+"minutes remaining");
             notificationRequest.setContain(ev.getDescription());
             ArrayList<String> userDeviceTokens = new ArrayList<>();
             for (Usergroupmapping usergroupmapping : usergroupmappingList) {
