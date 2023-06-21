@@ -104,7 +104,7 @@ public class EventService {
     public ResponseEntity<ResponseHandler> addEvent(Event ev) {
         try {
             eventRepo.save(ev);
-            //sendEventNotification(ev);
+            sendEventNotification(ev);
             sendEventMail(ev);
             return (ResponseEntity<ResponseHandler>) ResponseHandler.GenerateResponse("Event Added successfully", true);
         } catch (Exception e) {
@@ -201,6 +201,7 @@ public class EventService {
             updateUser.setIsDeleted(event.getIsDeleted() == null ? updateUser.getIsDeleted() : event.getIsDeleted());
             updateUser.setLastModify(event.getLastModify() == null ? updateUser.getLastModify() : event.getLastModify());
             eventRepo.save(updateUser);
+            sendEventMail(updateUser);
             return (ResponseEntity<ResponseHandler>) ResponseHandler.GenerateResponse("Event Updated!!", true, updateUser);
         } catch (Exception e) {
             return (ResponseEntity<ResponseHandler>) ResponseHandler.GenerateResponse("Event not Updated!!" + e.getMessage(), false);
