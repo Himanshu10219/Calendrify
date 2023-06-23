@@ -104,7 +104,7 @@ public class EventService {
     public ResponseEntity<ResponseHandler> addEvent(Event ev) {
         try {
             eventRepo.save(ev);
-            sendEventNotification(ev);
+            sendEventNotification(ev,ev.getTitle());
             sendEventMail(ev);
             return (ResponseEntity<ResponseHandler>) ResponseHandler.GenerateResponse("Event Added successfully", true);
         } catch (Exception e) {
@@ -147,17 +147,14 @@ public class EventService {
         }
     }
 
-    public void sendEventNotification(Event ev) {
+    public void sendEventNotification(Event ev, String title) {
         if (eventRepo.findById(ev.getId()).isPresent()) {
             ev = eventRepo.findById(ev.getId()).get();
         }
         List<Usergroupmapping> usergroupmappingList = userGroupMappingService.getAllUserGroupMapping(null, String.valueOf(ev.getGroupid().getId()), null);
         if (!usergroupmappingList.isEmpty()) {
-            LocalDateTime currentDateTime = LocalDateTime.now();
             NotificationRequest notificationRequest = new NotificationRequest();
-            Duration duration = Duration.between(currentDateTime, ev.getStartDateTime());
-            int minutesDifferenceInt = (int) duration.toMinutes();;
-            notificationRequest.setHeading(ev.getTitle()+"  "+minutesDifferenceInt+"minutes remaining");
+            notificationRequest.setHeading(title);
             notificationRequest.setContain(ev.getDescription());
             ArrayList<String> userDeviceTokens = new ArrayList<>();
             for (Usergroupmapping usergroupmapping : usergroupmappingList) {

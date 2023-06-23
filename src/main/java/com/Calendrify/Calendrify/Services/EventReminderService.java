@@ -39,8 +39,9 @@ public class EventReminderService {
                         Duration duration = Duration.between(currentDateTime, event.getStartDateTime());
                         long minutesDifference = duration.toMinutes();
                         if(minutesDifference<=5&& minutesDifference>=0){
-                            event.setTitle("Reminder:"+event.getTitle());
-                            eventService.sendEventNotification(event);
+                            String message=minutesDifference==0?"":""+minutesDifference+" Minutes remaining for ";
+                            event.setTitle("Reminder :"+message+event.getTitle());
+                            eventService.sendEventNotification(event,event.getTitle());
                         }
                     }
                 }
